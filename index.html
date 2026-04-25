@@ -4,13 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lista Casa — Will & Anna</title>
-<link rel="manifest" href="manifest.json">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Nossa Casa">
-<meta name="theme-color" content="#a87228">
-<link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <!-- SheetJS — lê XLS, XLSX e HTML-disfarçado-de-XLS dos bancos PT.
      Fallback em cascata: se um CDN falhar (offline/bloqueado), tenta o próximo. -->
@@ -6018,6 +6011,7 @@ buildItems();
   let hOffset  = 1 * 110; // start on casa (index 1)
   let hVel     = 0;
   let hDragging = false;
+  let _lastNearestIdx = 1; // rastreia o card mais próximo p/ haptic no threshold
   let hLastX   = 0, hLastT = 0;
   let rafH     = null;
 
@@ -6048,8 +6042,8 @@ buildItems();
     const scale   = 1 - norm * 0.24;
     const blur    = norm * 2;
     const opacity = 1 - norm * 0.42;
-    const tz      = -norm * 50;    // Z depth in px — goes behind
-    const rotY    = (dx / SPACING) * 14; // subtle Y rotation
+    const tz      = -norm * 30;    // Z depth in px — goes behind
+    const rotY    = 0; // sem rotateY — evita distorção lateral dos cards
     const shadowI = (1 - norm) * 0.2;
     const z       = Math.round((1 - norm) * 20);
     return { scale, blur, opacity, tz, rotY, shadowI, z };
@@ -6150,6 +6144,7 @@ buildItems();
     hLastX = x; hLastT = performance.now();
     hVel = 0;
     vStartY = y; vCurrentY = y;
+    _lastNearestIdx = getNearestIdx();
     cancelAnimationFrame(rafH); rafH = null;
     cards.forEach(c => c.style.transition = 'none');
   }
@@ -6177,6 +6172,13 @@ buildItems();
       if (hOffset > maxOff) hOffset = maxOff + (hOffset - maxOff) * 0.3;
       hLastX = x; hLastT = now;
       applyCards(false);
+
+      // Haptic click quando cruza o meio e o card mais próximo muda
+      const curNearest = getNearestIdx();
+      if (curNearest !== _lastNearestIdx) {
+        _lastNearestIdx = curNearest;
+        haptic.light();
+      }
 
     } else if (vDragAxis === 'v') {
       vCurrentY = y;
@@ -6736,17 +6738,20 @@ buildItems();
         console.log('[loadAll] Transações carregadas:', State.transactions.length, '| com categoria:', State.transactions.filter(t=>t.categoria).length);
       }
 
-      // Accounts: só aceita do servidor se vier com valor real (não zero)
+      // Accounts: só aceita do servidor se vier com valor real (não zero e válido)
       if (data.accounts) {
         const serverNb = data.accounts.novo_banco;
         const serverMb = data.accounts.millennium;
-        if (typeof serverNb === 'number' && serverNb !== 0) {
+        // Aceita qualquer número que não seja 0 (inclusive negativos e pequenos decimais)
+        if (typeof serverNb === 'number' && serverNb !== 0 && !isNaN(serverNb)) {
           State.accounts.novo_banco = serverNb;
           State.accounts._fromFile = true;
+          console.log('[loadAll] Saldo Novo Banco do servidor:', serverNb);
         }
-        if (typeof serverMb === 'number' && serverMb !== 0) {
+        if (typeof serverMb === 'number' && serverMb !== 0 && !isNaN(serverMb)) {
           State.accounts.millennium = serverMb;
           State.accounts._fromFile = true;
+          console.log('[loadAll] Saldo Millennium do servidor:', serverMb);
         }
       }
 
@@ -9183,168 +9188,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updatePermBtn();
 
   }, 500);
-});
-</script>
-
-<script>
-// ═══════════════════════════════════════════════════════════
-//  PWA BRIDGE — Registo do SW + integração com notificações
-// ═══════════════════════════════════════════════════════════
-
-// ─── REGISTO DO SERVICE WORKER ───────────────────────────────
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    try {
-      const reg = await navigator.serviceWorker.register('/casa/sw.js', { scope: '/casa/' });
-      console.log('[PWA] Service Worker registado:', reg.scope);
-      window._swReg = reg;
-
-      // Pede permissão de Periodic Background Sync se disponível
-      if ('periodicSync' in reg) {
-        try {
-          await reg.periodicSync.register('check-deadlines', { minInterval: 60 * 60 * 1000 }); // 1h
-          await reg.periodicSync.register('check-budgets',   { minInterval: 60 * 60 * 1000 });
-          console.log('[PWA] Periodic Sync registado');
-        } catch(e) {
-          console.warn('[PWA] Periodic Sync não disponível:', e.message);
-        }
-      }
-    } catch(e) {
-      console.warn('[PWA] Falha ao registar SW:', e.message);
-    }
-  });
-
-  // ─── LISTENER: SW pede pra abrir uma tab específica ──────
-  navigator.serviceWorker.addEventListener('message', event => {
-    if (event.data?.type === 'OPEN_TAB' && event.data.tab) {
-      if (typeof switchTab === 'function') {
-        switchTab(event.data.tab, null);
-      }
-    }
-  });
-
-  // ─── Abre tab se URL tem #tab=xxx (vindo de notificação) ─
-  window.addEventListener('load', () => {
-    const hash = window.location.hash;
-    if (hash.startsWith('#tab=')) {
-      const tab = hash.replace('#tab=', '');
-      setTimeout(() => {
-        if (typeof switchTab === 'function') switchTab(tab, null);
-      }, 800);
-    }
-  });
-}
-
-// ─── ENVIA DADOS PRO SW (para background checks) ─────────────
-// Chamado sempre que o app actualiza tarefas ou finanças,
-// garante que o SW tem dados frescos mesmo com o app fechado.
-
-function syncDataToSW() {
-  if (!navigator.serviceWorker?.controller) return;
-
-  // Deadlines
-  try {
-    const todos = typeof loadTodoList === 'function' ? loadTodoList() : [];
-    const settings = typeof getNotifSettings === 'function' ? getNotifSettings() : {};
-    navigator.serviceWorker.controller.postMessage({
-      type: 'CACHE_DEADLINES',
-      payload: { todos, settings }
-    });
-  } catch(e) {}
-
-  // Budgets
-  try {
-    const budgets = typeof loadBudgets === 'function' ? loadBudgets() : {};
-    const txKey  = 'fin_transactions_novo_banco';
-    const txMill = 'fin_transactions_millennium';
-    const now = new Date();
-    const monthStr = now.toISOString().slice(0, 7);
-    const txAll = [];
-    try { txAll.push(...(JSON.parse(localStorage.getItem(txKey)  || '[]'))); } catch(e) {}
-    try { txAll.push(...(JSON.parse(localStorage.getItem(txMill) || '[]'))); } catch(e) {}
-    const spending = {};
-    txAll.forEach(tx => {
-      if (!tx.data?.startsWith(monthStr) || tx.tipo !== 'saida') return;
-      const cat = tx.categoria || 'outro';
-      spending[cat] = (spending[cat] || 0) + Math.abs(tx.valor);
-    });
-    navigator.serviceWorker.controller.postMessage({
-      type: 'CACHE_BUDGETS',
-      payload: { budgets, spending }
-    });
-  } catch(e) {}
-}
-
-// Sincroniza sempre que o app fica em background
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'hidden') syncDataToSW();
-});
-
-// Sincroniza periodicamente enquanto o app está aberto
-setInterval(syncDataToSW, 5 * 60 * 1000); // a cada 5 min
-
-// Sincroniza na primeira carga (após o SW estar pronto)
-window.addEventListener('load', () => setTimeout(syncDataToSW, 2000));
-
-// ─── NOTIFY VIA SW (garante chegada mesmo em background) ─────
-// Substitui o sistema de toast-only por notificação real do sistema
-const _origNotify = window.notify;
-window.notify = function(type, icon, title, msg, options) {
-  // Toast + haptic + history (comportamento original)
-  if (typeof _origNotify === 'function') _origNotify(type, icon, title, msg, options);
-
-  // Envia pro SW se o Notification API não tiver permissão directa
-  // (o SW tem permissão própria e funciona em background)
-  if (navigator.serviceWorker?.controller && Notification.permission === 'granted') {
-    const tabMap = {
-      task: 'todo', success: 'todo', warning: 'todo',
-      purchase: 'casa', cat: 'casa',
-      budget: 'financas', urgent: 'financas', bigTx: 'financas',
-    };
-    navigator.serviceWorker.controller.postMessage({
-      type:   'NOTIFY',
-      title,
-      body:   msg || '',
-      tag:    type + '-' + Date.now(),
-      tab:    tabMap[type] || '',
-      urgent: type === 'urgent',
-    });
-  }
-};
-
-// ─── INSTALL PROMPT (Android Chrome) ─────────────────────────
-let _installPrompt = null;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  _installPrompt = e;
-  // Mostra um toast discreto depois de 3s
-  setTimeout(() => {
-    if (typeof showToast === 'function') {
-      showToast('info', '📲', 'Instalar app', 'Toca aqui para adicionar ao ecrã inicial', 8000);
-      // O próximo toast click vai acionar o install
-      const stack = document.getElementById('notifToastStack');
-      if (stack) {
-        const t = stack.querySelector('.notif-toast');
-        if (t) {
-          const orig = t.onclick;
-          t.onclick = async (ev) => {
-            if (!ev.target.classList.contains('notif-toast-close')) {
-              _installPrompt?.prompt();
-              const { outcome } = await _installPrompt.userChoice;
-              console.log('[PWA] Install outcome:', outcome);
-            }
-          };
-        }
-      }
-    }
-  }, 3000);
-});
-
-window.addEventListener('appinstalled', () => {
-  console.log('[PWA] App instalado com sucesso!');
-  if (typeof showToast === 'function') {
-    showToast('success', '🏠', 'App instalado!', 'Will & Anna adicionado ao ecrã inicial');
-  }
 });
 </script>
 
