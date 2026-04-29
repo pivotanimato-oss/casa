@@ -4341,7 +4341,7 @@
 </head>
 <body>
 
-if (!localStorage.getItem('wa_script_url')) {
+if (!localStorage.getItem('fin_apps_script_url')) {
   localStorage.setItem('wa_script_url', 'https://script.google.com/macros/s/AKfycbzmHvvs84ar_a0sai7aFy7qU9Xr8hPpnbAYGazNru0WfWGaAO9G8xZCKyniGQy87MbFYA/exec');
 }
 
@@ -10627,7 +10627,7 @@ function _onItemPaid(itemName, price) {
 
 // ─── ENVIO DE EMAIL POR COMPRA ────────────────────────────────
 function _sendPurchaseEmail(itemName, price) {
-  const scriptUrl = localStorage.getItem('wa_script_url');
+  const scriptUrl = localStorage.getItem('fin_apps_script_url');
   
   // ⚠️ Validação: URL do script é obrigatória
   if (!scriptUrl) {
@@ -10689,7 +10689,7 @@ function _sendPurchaseEmail(itemName, price) {
 
 // ─── 1. NOTIFICAÇÃO: NOVA TAREFA ADICIONADA (por Anna) ──────────────
 function _sendTaskAddedEmail(taskName, addedBy) {
-  const scriptUrl = localStorage.getItem('wa_script_url');
+  const scriptUrl = localStorage.getItem('fin_apps_script_url');
   if (!scriptUrl) {
     console.warn('⚠️ [Email] URL do script não configurada.');
     return;
@@ -10737,7 +10737,7 @@ function _sendTaskAddedEmail(taskName, addedBy) {
 
 // ─── 2. NOTIFICAÇÃO: TAREFA CONCLUÍDA ────────────────────────────────
 function _sendTaskCompletedEmail(taskName, completedBy) {
-  const scriptUrl = localStorage.getItem('wa_script_url');
+  const scriptUrl = localStorage.getItem('fin_apps_script_url');
   if (!scriptUrl) return;
 
   const s = getNotifSettings();
@@ -10777,7 +10777,7 @@ function _sendTaskCompletedEmail(taskName, completedBy) {
 
 // ─── 3. NOTIFICAÇÃO: TAREFA RECUSADA/REJEITADA ────────────────────────
 function _sendTaskRejectedEmail(taskName, rejectedBy, reason) {
-  const scriptUrl = localStorage.getItem('wa_script_url');
+  const scriptUrl = localStorage.getItem('fin_apps_script_url');
   if (!scriptUrl) return;
 
   const s = getNotifSettings();
@@ -10818,7 +10818,7 @@ function _sendTaskRejectedEmail(taskName, rejectedBy, reason) {
 
 // ─── 4. NOTIFICAÇÃO: CELEBRAÇÃO (compra marcante) ──────────────────────
 function _sendCelebrationEmail(itemName, celebrationMsg, emoji) {
-  const scriptUrl = localStorage.getItem('wa_script_url');
+  const scriptUrl = localStorage.getItem('fin_apps_script_url');
   if (!scriptUrl) return;
 
   const s = getNotifSettings();
@@ -10861,7 +10861,7 @@ function _sendCelebrationEmail(itemName, celebrationMsg, emoji) {
 
 // ─── 5. NOTIFICAÇÃO: ORÇAMENTO A 90% (aviso) ──────────────────────────
 function _sendBudgetWarningEmail(category, spent, limit, percentage) {
-  const scriptUrl = localStorage.getItem('wa_script_url');
+  const scriptUrl = localStorage.getItem('fin_apps_script_url');
   if (!scriptUrl) return;
 
   const s = getNotifSettings();
@@ -10903,7 +10903,7 @@ function _sendBudgetWarningEmail(category, spent, limit, percentage) {
 
 // ─── 6. NOTIFICAÇÃO: ORÇAMENTO ULTRAPASSADO (alerta crítico) ──────────
 function _sendBudgetOverEmail(category, spent, limit, percentage, overage) {
-  const scriptUrl = localStorage.getItem('wa_script_url');
+  const scriptUrl = localStorage.getItem('fin_apps_script_url');
   if (!scriptUrl) return;
 
   const s = getNotifSettings();
