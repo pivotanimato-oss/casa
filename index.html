@@ -4341,6 +4341,10 @@
 </head>
 <body>
 
+if (!localStorage.getItem('wa_script_url')) {
+  localStorage.setItem('wa_script_url', 'https://script.google.com/macros/s/AKfycbzmHvvs84ar_a0sai7aFy7qU9Xr8hPpnbAYGazNru0WfWGaAO9G8xZCKyniGQy87MbFYA/exec');
+}
+
 <!-- HOME SCREEN -->
 <div id="sectionHome">
   <div class="home-title">Will &amp; Anna</div>
@@ -10129,6 +10133,42 @@ buildItems();
     </label>
   </label>
 
+  <label class="notif-toggle-row">
+    <span class="notif-toggle-icon">📧</span>
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-name">Email: Tarefa adicionada</div>
+      <div class="notif-toggle-desc">Envia email quando a Anna adiciona uma nova tarefa</div>
+    </div>
+    <label class="notif-switch">
+      <input type="checkbox" id="ntToggleTaskAdded" checked onchange="saveNotifSettings()">
+      <span class="notif-switch-slider"></span>
+    </label>
+  </label>
+
+  <label class="notif-toggle-row">
+    <span class="notif-toggle-icon">📧</span>
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-name">Email: Tarefa concluída</div>
+      <div class="notif-toggle-desc">Envia email quando uma tarefa é marcada como concluída</div>
+    </div>
+    <label class="notif-switch">
+      <input type="checkbox" id="ntToggleTaskCompleted" checked onchange="saveNotifSettings()">
+      <span class="notif-switch-slider"></span>
+    </label>
+  </label>
+
+  <label class="notif-toggle-row">
+    <span class="notif-toggle-icon">📧</span>
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-name">Email: Tarefa recusada</div>
+      <div class="notif-toggle-desc">Envia email quando uma tarefa é marcada como recusada</div>
+    </div>
+    <label class="notif-switch">
+      <input type="checkbox" id="ntToggleTaskRejected" checked onchange="saveNotifSettings()">
+      <span class="notif-switch-slider"></span>
+    </label>
+  </label>
+
   <div class="notif-section-label">Compras da casa</div>
 
   <label class="notif-toggle-row">
@@ -10139,6 +10179,18 @@ buildItems();
     </div>
     <label class="notif-switch">
       <input type="checkbox" id="ntToggleItemPaid" checked onchange="saveNotifSettings()">
+      <span class="notif-switch-slider"></span>
+    </label>
+  </label>
+
+  <label class="notif-toggle-row">
+    <span class="notif-toggle-icon">🎉</span>
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-name">Email: Celebração</div>
+      <div class="notif-toggle-desc">Envia email celebrando compras marcantes (cozinha, ar-condicionado, etc)</div>
+    </div>
+    <label class="notif-switch">
+      <input type="checkbox" id="ntToggleCelebration" checked onchange="saveNotifSettings()">
       <span class="notif-switch-slider"></span>
     </label>
   </label>
@@ -10255,6 +10307,10 @@ function getNotifSettings() {
       budget:       s.budget       !== false,
       budgetOver:   s.budgetOver   !== false,
       bigTx:        s.bigTx        !== false,
+      taskAdded:    s.taskAdded    !== false,
+      taskCompleted: s.taskCompleted !== false,
+      taskRejected: s.taskRejected !== false,
+      celebration:  s.celebration  !== false,
       emailNotif:   s.emailNotif   || '',
       emailNotif2:  s.emailNotif2  || '',
     };
@@ -10273,6 +10329,10 @@ function saveNotifSettings() {
     budget:        document.getElementById('ntToggleBudget')?.checked   !== false,
     budgetOver:    document.getElementById('ntToggleBudgetOver')?.checked !== false,
     bigTx:         document.getElementById('ntToggleBigTx')?.checked    !== false,
+    taskAdded:     document.getElementById('ntToggleTaskAdded')?.checked !== false,
+    taskCompleted: document.getElementById('ntToggleTaskCompleted')?.checked !== false,
+    taskRejected:  document.getElementById('ntToggleTaskRejected')?.checked !== false,
+    celebration:   document.getElementById('ntToggleCelebration')?.checked !== false,
     emailNotif:    document.getElementById('ntEmailNotif')?.value        || '',
     emailNotif2:   document.getElementById('ntEmailNotif2')?.value       || '',
   };
@@ -10286,7 +10346,11 @@ function loadNotifSettingsUI() {
     ntToggleDeadline: s.deadline,
     ntDeadlineHours: s.deadlineHours,
     ntToggleTaskDone: s.taskDone,
+    ntToggleTaskAdded: s.taskAdded,
+    ntToggleTaskCompleted: s.taskCompleted,
+    ntToggleTaskRejected: s.taskRejected,
     ntToggleItemPaid: s.itemPaid,
+    ntToggleCelebration: s.celebration,
     ntToggleCatDone: s.catDone,
     ntToggleMilestone: s.milestone,
     ntToggleBudget: s.budget,
@@ -10618,24 +10682,30 @@ function _sendPurchaseEmail(itemName, price) {
     });
 }
  
+
+// ═══════════════════════════════════════════════════════════════════
+// NOVAS FUNÇÕES DE EMAIL — 6 tipos de notificação
+// ═══════════════════════════════════════════════════════════════════
+
+// ─── 1. NOTIFICAÇÃO: NOVA TAREFA ADICIONADA (por Anna) ──────────────
 function _sendTaskAddedEmail(taskName, addedBy) {
   const scriptUrl = localStorage.getItem('wa_script_url');
   if (!scriptUrl) {
     console.warn('⚠️ [Email] URL do script não configurada.');
     return;
   }
- 
+
   const s = getNotifSettings();
-  if (!s.taskAdded) return; // Só envia se ativado
- 
+  if (!s.taskAdded) return;
+
   const email1 = (s.emailNotif || '').trim();
   const email2 = (s.emailNotif2 || '').trim();
- 
+
   if (!email1 && !email2) {
     console.warn('⚠️ [Email] Nenhum email configurado.');
     return;
   }
- 
+
   const payload = {
     action: 'sendTaskAddedEmail',
     payload: {
@@ -10645,7 +10715,7 @@ function _sendTaskAddedEmail(taskName, addedBy) {
       email2: email2
     }
   };
- 
+
   fetch(scriptUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10664,23 +10734,20 @@ function _sendTaskAddedEmail(taskName, addedBy) {
       console.error(`❌ [Email] Fetch error:`, err.message);
     });
 }
- 
-// ═══════════════════════════════════════════════════════════════════
-// 2. NOTIFICAÇÃO: TAREFA CONCLUÍDA
-// ═══════════════════════════════════════════════════════════════════
- 
+
+// ─── 2. NOTIFICAÇÃO: TAREFA CONCLUÍDA ────────────────────────────────
 function _sendTaskCompletedEmail(taskName, completedBy) {
   const scriptUrl = localStorage.getItem('wa_script_url');
   if (!scriptUrl) return;
- 
+
   const s = getNotifSettings();
   if (!s.taskCompleted) return;
- 
+
   const email1 = (s.emailNotif || '').trim();
   const email2 = (s.emailNotif2 || '').trim();
- 
+
   if (!email1 && !email2) return;
- 
+
   const payload = {
     action: 'sendTaskCompletedEmail',
     payload: {
@@ -10690,7 +10757,7 @@ function _sendTaskCompletedEmail(taskName, completedBy) {
       email2: email2
     }
   };
- 
+
   fetch(scriptUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10707,23 +10774,20 @@ function _sendTaskCompletedEmail(taskName, completedBy) {
       console.error(`❌ [Email] Fetch error:`, err.message);
     });
 }
- 
-// ═══════════════════════════════════════════════════════════════════
-// 3. NOTIFICAÇÃO: TAREFA RECUSADA/REJEITADA
-// ═══════════════════════════════════════════════════════════════════
- 
+
+// ─── 3. NOTIFICAÇÃO: TAREFA RECUSADA/REJEITADA ────────────────────────
 function _sendTaskRejectedEmail(taskName, rejectedBy, reason) {
   const scriptUrl = localStorage.getItem('wa_script_url');
   if (!scriptUrl) return;
- 
+
   const s = getNotifSettings();
   if (!s.taskRejected) return;
- 
+
   const email1 = (s.emailNotif || '').trim();
   const email2 = (s.emailNotif2 || '').trim();
- 
+
   if (!email1 && !email2) return;
- 
+
   const payload = {
     action: 'sendTaskRejectedEmail',
     payload: {
@@ -10734,7 +10798,7 @@ function _sendTaskRejectedEmail(taskName, rejectedBy, reason) {
       email2: email2
     }
   };
- 
+
   fetch(scriptUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10751,25 +10815,22 @@ function _sendTaskRejectedEmail(taskName, rejectedBy, reason) {
       console.error(`❌ [Email] Fetch error:`, err.message);
     });
 }
- 
-// ═══════════════════════════════════════════════════════════════════
-// 4. NOTIFICAÇÃO: CELEBRAÇÃO (compra marcante)
-// ═══════════════════════════════════════════════════════════════════
- 
+
+// ─── 4. NOTIFICAÇÃO: CELEBRAÇÃO (compra marcante) ──────────────────────
 function _sendCelebrationEmail(itemName, celebrationMsg, emoji) {
   const scriptUrl = localStorage.getItem('wa_script_url');
   if (!scriptUrl) return;
- 
+
   const s = getNotifSettings();
   if (!s.celebration) return;
- 
+
   const email1 = (s.emailNotif || '').trim();
   const email2 = (s.emailNotif2 || '').trim();
- 
+
   if (!email1 && !email2) return;
- 
+
   emoji = emoji || '🎉';
- 
+
   const payload = {
     action: 'sendCelebrationEmail',
     payload: {
@@ -10780,7 +10841,7 @@ function _sendCelebrationEmail(itemName, celebrationMsg, emoji) {
       email2: email2
     }
   };
- 
+
   fetch(scriptUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10797,23 +10858,20 @@ function _sendCelebrationEmail(itemName, celebrationMsg, emoji) {
       console.error(`❌ [Email] Fetch error:`, err.message);
     });
 }
- 
-// ═══════════════════════════════════════════════════════════════════
-// 5. NOTIFICAÇÃO: ORÇAMENTO A 90% (aviso)
-// ═══════════════════════════════════════════════════════════════════
- 
+
+// ─── 5. NOTIFICAÇÃO: ORÇAMENTO A 90% (aviso) ──────────────────────────
 function _sendBudgetWarningEmail(category, spent, limit, percentage) {
   const scriptUrl = localStorage.getItem('wa_script_url');
   if (!scriptUrl) return;
- 
+
   const s = getNotifSettings();
   if (!s.budget) return;
- 
+
   const email1 = (s.emailNotif || '').trim();
   const email2 = (s.emailNotif2 || '').trim();
- 
+
   if (!email1 && !email2) return;
- 
+
   const payload = {
     action: 'sendBudgetWarningEmail',
     payload: {
@@ -10825,7 +10883,7 @@ function _sendBudgetWarningEmail(category, spent, limit, percentage) {
       email2: email2
     }
   };
- 
+
   fetch(scriptUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10842,23 +10900,20 @@ function _sendBudgetWarningEmail(category, spent, limit, percentage) {
       console.error(`❌ [Email] Fetch error:`, err.message);
     });
 }
- 
-// ═══════════════════════════════════════════════════════════════════
-// 6. NOTIFICAÇÃO: ORÇAMENTO ULTRAPASSADO (alerta crítico)
-// ═══════════════════════════════════════════════════════════════════
- 
+
+// ─── 6. NOTIFICAÇÃO: ORÇAMENTO ULTRAPASSADO (alerta crítico) ──────────
 function _sendBudgetOverEmail(category, spent, limit, percentage, overage) {
   const scriptUrl = localStorage.getItem('wa_script_url');
   if (!scriptUrl) return;
- 
+
   const s = getNotifSettings();
   if (!s.budgetOver) return;
- 
+
   const email1 = (s.emailNotif || '').trim();
   const email2 = (s.emailNotif2 || '').trim();
- 
+
   if (!email1 && !email2) return;
- 
+
   const payload = {
     action: 'sendBudgetOverEmail',
     payload: {
@@ -10871,7 +10926,7 @@ function _sendBudgetOverEmail(category, spent, limit, percentage, overage) {
       email2: email2
     }
   };
- 
+
   fetch(scriptUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -10888,7 +10943,7 @@ function _sendBudgetOverEmail(category, spent, limit, percentage, overage) {
       console.error(`❌ [Email] Fetch error:`, err.message);
     });
 }
- 
+
 
 // ─── HOOK: CATEGORIA COMPLETA ─────────────────────────────────
 function _onCatComplete(catName) {
