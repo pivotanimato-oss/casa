@@ -10662,11 +10662,11 @@ function _sendPurchaseEmail(itemName, price) {
   fetch(scriptUrl, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json' // ⚠️ CRÍTICO: Sem isto, o Apps Script não recebe o JSON corretamente
+      'Content-Type': 'text/plain;charset=utf-8' // ⚠️ CRÍTICO: Sem isto, o Apps Script não recebe o JSON corretamente
     },
     body: JSON.stringify(payload)
   })
-    .then(res => res.json())
+    .then(res => res.text()).then(text => JSON.parse(text))
     .then(data => {
       if (data.result?.ok) {
         console.log(`✅ [Email] Enviado para ${data.result.sent} recipientes`);
@@ -10718,10 +10718,10 @@ function _sendTaskAddedEmail(taskName, addedBy) {
 
   fetch(scriptUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(payload)
   })
-    .then(res => res.json())
+    .then(res => res.text()).then(text => JSON.parse(text))
     .then(data => {
       if (data.result?.ok) {
         console.log(`✅ [Email] Tarefa adicionada enviado para ${data.result.sent} email(s)`);
@@ -10760,10 +10760,10 @@ function _sendTaskCompletedEmail(taskName, completedBy) {
 
   fetch(scriptUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(payload)
   })
-    .then(res => res.json())
+    .then(res => res.text()).then(text => JSON.parse(text))
     .then(data => {
       if (data.result?.ok) {
         console.log(`✅ [Email] Tarefa concluída enviado`);
@@ -10801,10 +10801,10 @@ function _sendTaskRejectedEmail(taskName, rejectedBy, reason) {
 
   fetch(scriptUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(payload)
   })
-    .then(res => res.json())
+    .then(res => res.text()).then(text => JSON.parse(text))
     .then(data => {
       if (data.result?.ok) {
         console.log(`✅ [Email] Tarefa recusada enviado`);
@@ -10844,10 +10844,10 @@ function _sendCelebrationEmail(itemName, celebrationMsg, emoji) {
 
   fetch(scriptUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(payload)
   })
-    .then(res => res.json())
+    .then(res => res.text()).then(text => JSON.parse(text))
     .then(data => {
       if (data.result?.ok) {
         console.log(`✅ [Email] Celebração enviada`);
@@ -10886,10 +10886,10 @@ function _sendBudgetWarningEmail(category, spent, limit, percentage) {
 
   fetch(scriptUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(payload)
   })
-    .then(res => res.json())
+    .then(res => res.text()).then(text => JSON.parse(text))
     .then(data => {
       if (data.result?.ok) {
         console.log(`✅ [Email] Aviso de orçamento enviado`);
@@ -10929,10 +10929,10 @@ function _sendBudgetOverEmail(category, spent, limit, percentage, overage) {
 
   fetch(scriptUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(payload)
   })
-    .then(res => res.json())
+    .then(res => res.text()).then(text => JSON.parse(text))
     .then(data => {
       if (data.result?.ok) {
         console.log(`✅ [Email] Alerta crítico de orçamento enviado`);
