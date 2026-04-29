@@ -1145,6 +1145,31 @@
     color: #fff;
     border-color: var(--text);
   }
+
+  /* Botão + pequeno para adicionar (transação/categoria) */
+  .fin-add-small-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: var(--accent);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+  }
+  .fin-add-small-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(168,114,40,0.4);
+  }
+  .fin-add-small-btn:active { transform: scale(0.95); }
+
   .fin-charts-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1156,82 +1181,203 @@
   }
 
   .fin-pie-wrap {
-    background: var(--surface);
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(255,255,255,0.5) 100%);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
+    border-radius: 18px;
+    padding: 24px;
     margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+  }
+  .fin-pie-wrap:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    border-color: var(--accent2);
   }
   .fin-pie-title {
     font-family: 'Lora', serif;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--text);
-    margin-bottom: 14px;
+    margin-bottom: 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    letter-spacing: 0.01em;
   }
   .fin-pie-type-toggle {
     display: flex;
-    gap: 4px;
+    gap: 6px;
+    background: var(--surface2);
+    padding: 3px;
+    border-radius: 10px;
   }
   .fin-pie-type-btn {
-    background: var(--surface2);
+    background: transparent;
     border: none;
     border-radius: 8px;
-    padding: 3px 10px;
+    padding: 4px 12px;
     font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.06em;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
     cursor: pointer;
+    color: var(--text3);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .fin-pie-type-btn:hover {
     color: var(--text2);
-    transition: all 0.2s;
   }
   .fin-pie-type-btn.active {
     background: var(--accent);
     color: #fff;
+    box-shadow: 0 4px 12px rgba(168,114,40,0.25);
   }
   .fin-pie-canvas-wrap {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 20px;
+    gap: 28px;
     flex-wrap: wrap;
   }
   #finPieCanvas {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 220px;
+    max-height: 220px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));
+    transition: filter 0.3s ease;
+  }
+  #finPieCanvas:hover {
+    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.12));
   }
   .fin-pie-legend {
     flex: 1;
-    min-width: 140px;
+    min-width: 160px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    max-height: 200px;
+    gap: 10px;
+    max-height: 250px;
     overflow-y: auto;
+    padding-right: 8px;
+  }
+  .fin-pie-legend::-webkit-scrollbar {
+    width: 6px;
+  }
+  .fin-pie-legend::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .fin-pie-legend::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+  }
+  .fin-pie-legend::-webkit-scrollbar-thumb:hover {
+    background: var(--text3);
   }
   .fin-pie-legend-item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-family: 'Inter', sans-serif;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     color: var(--text2);
+    padding: 8px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .fin-pie-legend-item:hover {
+    background: rgba(168,114,40,0.06);
+    color: var(--text);
   }
   .fin-pie-legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
     flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
   }
-  .fin-pie-legend-label { flex: 1; }
+  .fin-pie-legend-item:hover .fin-pie-legend-dot {
+    transform: scale(1.15);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  }
+  .fin-pie-legend-label { 
+    flex: 1;
+    font-weight: 500;
+  }
   .fin-pie-legend-amt {
     font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--text);
-    font-weight: 500;
+    font-size: 0.70rem;
+    color: var(--accent);
+    font-weight: 600;
+    min-width: 55px;
+    text-align: right;
+  }
+  .fin-pie-legend-item + .fin-pie-legend-item {
+    border-top: none;
+    padding-top: 8px;
+    margin-top: 0;
+  }
+  /* Pie canvas wrap needs position relative for overlay */
+  .fin-pie-canvas-wrap { position: relative; }
+  /* Center hover label - wrapper around canvas */
+  .fin-pie-canvas-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.3) 100%);
+    border-radius: 50%;
+    padding: 8px;
+    aspect-ratio: 1;
+    min-width: 240px;
+    min-height: 240px;
+  }
+  /* Center hover label */
+  #finPieHoverLabel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    text-align: center;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    border: 1px solid rgba(168,114,40,0.2);
+  }
+  #finPieHoverLabel.visible { 
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  #finPieHoverLabel .pie-hover-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  #finPieHoverLabel .pie-hover-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.60rem;
+    font-weight: 600;
+    color: var(--text2);
+    margin-top: 4px;
+    word-break: break-word;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   /* HEATMAP */
@@ -3029,7 +3175,6 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
-    overflow: hidden;
   }
   .fin-filter-group {
     padding: 10px 14px 10px;
@@ -3049,9 +3194,11 @@
     display: flex;
     gap: 6px;
     overflow-x: auto;
+    overflow-y: visible;
     scrollbar-width: none;
     align-items: center;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    min-height: 40px;
   }
   .fin-filter-row::-webkit-scrollbar { display: none; }
   /* legacy .fin-filters kept for compat */
@@ -3147,17 +3294,29 @@
     #finViewTransacoes.charts-open .fin-pie-wrap {
       width: 100%;
       margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 28px;
+    }
+
+    #finViewTransacoes.charts-open .fin-pie-title {
+      margin-bottom: 20px;
     }
 
     #finViewTransacoes.charts-open .fin-pie-canvas-wrap {
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      justify-content: center;
+      gap: 20px;
+      flex: 1;
     }
 
     #finViewTransacoes.charts-open #finPieCanvas {
       max-width: 100% !important;
       max-height: 100% !important;
+      width: 280px !important;
+      height: 280px !important;
     }
 
     #finViewTransacoes.charts-open .fin-pie-legend {
@@ -3165,12 +3324,14 @@
       flex-wrap: wrap;
       max-height: none;
       overflow-y: visible;
-      gap: 5px 10px;
+      gap: 8px 12px;
       justify-content: center;
+      padding-right: 0;
     }
 
     #finViewTransacoes.charts-open .fin-pie-legend-item {
-      font-size: 0.72rem;
+      font-size: 0.73rem;
+      padding: 8px 10px;
     }
 
     /* Heatmap fills column */
@@ -3396,6 +3557,30 @@
     transition: background 0.2s;
   }
   .fin-stat-card-add-btn:hover { background: rgba(52,199,89,0.28); }
+
+  /* UNIFIED + BUTTON */
+  .fin-unified-add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: var(--fin-accent, var(--accent));
+    color: #fff;
+    font-size: 1.7rem;
+    line-height: 1;
+    cursor: pointer;
+    margin: 12px auto 4px;
+    box-shadow: 0 4px 20px rgba(168,114,40,0.35);
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+  }
+  .fin-unified-add-btn:hover {
+    transform: scale(1.12);
+    box-shadow: 0 6px 28px rgba(168,114,40,0.5);
+  }
+  .fin-unified-add-btn:active { transform: scale(0.96); }
   .fin-source-inline-form {
     display: flex;
     flex-direction: column;
@@ -4436,7 +4621,6 @@
       <!-- Entradas / Saídas do mês -->
       <div class="fin-stats">
         <div class="fin-stat-card in">
-          <button class="fin-stat-card-add-btn" onclick="openAddIncomeModal()" title="Registar entrada">+</button>
           <div class="stat-label">Entradas (mês)</div>
           <div class="stat-value" id="finMonthIn">€0,00</div>
           <div class="stat-sub" id="finMonthInDelta"></div>
@@ -4541,14 +4725,17 @@
 
       </div>
 
-      <!-- Botão toggle — sempre visível, fora do charts-section -->
-      <button class="fin-chart-icon-btn" id="finChartIconBtn" onclick="toggleAllCharts(this)" title="Gráficos">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
-          <line x1="6"  y1="20" x2="6"  y2="14"/>
-        </svg>
-        Gráficos
-      </button>
+      <!-- Botões de controle: toggle gráficos + adicionar transação/categoria -->
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="fin-add-small-btn" onclick="openFinAddChoiceModal()" title="Adicionar transação ou categoria">+</button>
+        <button class="fin-chart-icon-btn" id="finChartIconBtn" onclick="toggleAllCharts(this)" title="Gráficos">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6"  y1="20" x2="6"  y2="14"/>
+          </svg>
+          Gráficos
+        </button>
+      </div>
 
       <!-- Charts Section (vira display:contents no desktop quando aberto) -->
       <div class="fin-charts-section" id="finChartsSection">
@@ -4561,7 +4748,13 @@
             <div class="fin-pie-wrap" id="finPieWrap">
               <div class="fin-pie-title">Distribuição</div>
               <div class="fin-pie-canvas-wrap">
-                <canvas id="finPieCanvas" width="200" height="200"></canvas>
+                <div class="fin-pie-canvas-container">
+                  <canvas id="finPieCanvas" width="200" height="200"></canvas>
+                  <div id="finPieHoverLabel">
+                    <div class="pie-hover-pct" id="finPieHoverPct"></div>
+                    <div class="pie-hover-name" id="finPieHoverName"></div>
+                  </div>
+                </div>
                 <div class="fin-pie-legend" id="finPieLegend"></div>
               </div>
             </div>
@@ -4622,6 +4815,32 @@
       <button class="fin-btn-secondary" onclick="closeFinCatModal()">Cancelar</button>
       <button class="fin-btn-primary" onclick="saveFinCategory()">Guardar</button>
     </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: CHOICE ENTRADA / SAÍDA ============ -->
+<div class="fin-modal-backdrop" id="finAddChoiceModal" onclick="if(event.target===this)closeAddChoiceModal()">
+  <div class="fin-modal" style="text-align:center;">
+    <div class="fin-modal-title">O que queres adicionar?</div>
+    <div class="fin-modal-sub">Escolhe o tipo de registo</div>
+    <div style="display:flex;gap:14px;margin-top:20px;margin-bottom:8px;flex-wrap:wrap;">
+      <button onclick="closeAddChoiceModal();openAddIncomeModal()" style="flex:1;min-width:120px;padding:20px 10px;background:rgba(52,199,89,0.12);border:1.5px solid rgba(52,199,89,0.35);border-radius:16px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(52,199,89,0.22)'" onmouseout="this.style.background='rgba(52,199,89,0.12)'">
+        <div style="font-size:1.8rem;margin-bottom:6px;">📥</div>
+        <div style="font-family:'Lora',serif;font-size:1rem;font-weight:600;color:var(--paid);">Entrada</div>
+        <div style="font-size:0.7rem;color:var(--text3);margin-top:3px;">Receita / rendimento</div>
+      </button>
+      <button onclick="closeAddChoiceModal();openAddExpenseModal()" style="flex:1;min-width:120px;padding:20px 10px;background:rgba(184,50,40,0.08);border:1.5px solid rgba(184,50,40,0.25);border-radius:16px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(184,50,40,0.16)'" onmouseout="this.style.background='rgba(184,50,40,0.08)'">
+        <div style="font-size:1.8rem;margin-bottom:6px;">📤</div>
+        <div style="font-family:'Lora',serif;font-size:1rem;font-weight:600;color:var(--danger);">Saída</div>
+        <div style="font-size:0.7rem;color:var(--text3);margin-top:3px;">Despesa / gasto</div>
+      </button>
+      <button onclick="closeAddChoiceModal();openCategoryManagerModal()" style="flex:1;min-width:120px;padding:20px 10px;background:rgba(168,114,40,0.12);border:1.5px solid rgba(168,114,40,0.35);border-radius:16px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(168,114,40,0.22)'" onmouseout="this.style.background='rgba(168,114,40,0.12)'">
+        <div style="font-size:1.8rem;margin-bottom:6px;">🏷️</div>
+        <div style="font-family:'Lora',serif;font-size:1rem;font-weight:600;color:var(--accent);">Categoria</div>
+        <div style="font-size:0.7rem;color:var(--text3);margin-top:3px;">Criar/editar categoria</div>
+      </button>
+    </div>
+    <button class="fin-btn-secondary" onclick="closeAddChoiceModal()" style="width:100%;margin-top:6px;">Cancelar</button>
   </div>
 </div>
 
@@ -4720,6 +4939,47 @@
     <div class="fin-modal-actions">
       <button class="fin-btn-secondary" onclick="closeAddIncomeModal()">Cancelar</button>
       <button class="fin-btn-primary" onclick="confirmAddIncome()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: NOVA SAÍDA ============ -->
+<div class="fin-modal-backdrop" id="finAddExpenseModal" onclick="if(event.target===this)closeAddExpenseModal()">
+  <div class="fin-modal">
+    <div class="fin-modal-title">Nova saída</div>
+    <div class="fin-modal-sub">Regista uma despesa manualmente</div>
+
+    <div class="fin-income-field">
+      <label>Valor (€)</label>
+      <input class="fin-income-input" id="finExpenseValor" type="number" min="0.01" step="0.01" placeholder="0,00" inputmode="decimal">
+    </div>
+
+    <div class="fin-income-field">
+      <label>Descrição</label>
+      <input class="fin-income-input" id="finExpenseDesc" type="text" placeholder="Ex: Continente - compras semana" maxlength="80">
+    </div>
+
+    <div class="fin-income-field">
+      <label>Data</label>
+      <input class="fin-income-input" id="finExpenseData" type="date">
+    </div>
+
+    <div class="fin-income-field-label">Categoria</div>
+    <div class="fin-income-source-grid" id="finExpenseCatGrid">
+      <!-- injetado via JS com CATEGORIAS de saída -->
+    </div>
+
+    <div class="fin-income-field">
+      <label>Conta</label>
+      <select class="fin-income-input" id="finExpenseConta">
+        <option value="novo_banco">Novo Banco</option>
+        <option value="millennium">Millennium BCP</option>
+      </select>
+    </div>
+
+    <div class="fin-modal-actions">
+      <button class="fin-btn-secondary" onclick="closeAddExpenseModal()">Cancelar</button>
+      <button class="fin-btn-primary" onclick="confirmAddExpense()">Adicionar</button>
     </div>
   </div>
 </div>
@@ -6249,7 +6509,9 @@ function toggleTodoDone(id, checked) {
     // Actualiza lado A se visível
     renderTodoListA();
     // Notificação integrada (sem monkey-patch)
+    // IMPORTANTE: NÃO REGISTA AUTOMATICAMENTE NAS FINANÇAS
     if (checked && typeof _onTaskDone === 'function') _onTaskDone(item);
+    // Se precisas registar esta compra nas finanças, faz manualmente no separador Finanças
   }
 }
 
@@ -7222,23 +7484,41 @@ buildItems();
   'use strict';
 
   // ─── CATEGORIAS PADRÃO ───
-  const CATEGORIAS = [
-    { id: 'alimentacao',  nome: 'Alimentação', emoji: '🍎' },
-    { id: 'restaurante',  nome: 'Restaurante', emoji: '🍽️' },
-    { id: 'transporte',   nome: 'Transporte',  emoji: '🚗' },
-    { id: 'casa',         nome: 'Casa',        emoji: '🏠' },
-    { id: 'contas',       nome: 'Contas',      emoji: '📄' },
-    { id: 'saude',        nome: 'Saúde',       emoji: '💊' },
-    { id: 'lazer',        nome: 'Lazer',       emoji: '🎮' },
-    { id: 'compras',      nome: 'Compras',     emoji: '🛍️' },
-    { id: 'casamento',    nome: 'Casamento',   emoji: '💍' },
-    { id: 'salario',      nome: 'Salário',     emoji: '💰' },
-    { id: 'transferencia',nome: 'Transferência',emoji: '🔄' },
-    { id: 'outros',       nome: 'Outros',      emoji: '📌' },
+  // ─── CATEGORIAS DE SAÍDA — base (editáveis via LS) ───
+  const CATEGORIAS_SAIDA_BASE = [
+    { id: 'alimentacao',  nome: 'Alimentação',     emoji: '🍎' },
+    { id: 'restaurante',  nome: 'Restaurante',     emoji: '🍽️' },
+    { id: 'transporte',   nome: 'Transporte',      emoji: '🚗' },
+    { id: 'casa',         nome: 'Compras pra casa', emoji: '🏠' },
+    { id: 'contas',       nome: 'Contas',           emoji: '📄' },
+    { id: 'saude',        nome: 'Saúde',            emoji: '💊' },
+    { id: 'lazer',        nome: 'Lazer',            emoji: '🎮' },
+    { id: 'compras',      nome: 'Compras',          emoji: '🛍️' },
+    { id: 'casamento',    nome: 'Casamento',        emoji: '💍' },
+    { id: 'transferencia',nome: 'Transferência',    emoji: '🔄' },
+    { id: 'outros',       nome: 'Outros',           emoji: '📌' },
   ];
+
+  // ─── OVERRIDES DE NOME/EMOJI para categorias de saída base ───
+  const LS_SAIDA_OVERRIDES = 'fin_saida_cat_overrides_v1';
+  function loadSaidaOverrides() {
+    try { return JSON.parse(localStorage.getItem(LS_SAIDA_OVERRIDES) || '{}'); } catch(e) { return {}; }
+  }
+  function saveSaidaOverrides(obj) { localStorage.setItem(LS_SAIDA_OVERRIDES, JSON.stringify(obj)); }
+  function applySaidaOverrides() {
+    const ov = loadSaidaOverrides();
+    CATEGORIAS_SAIDA_BASE.forEach(c => {
+      if (ov[c.id]) { if (ov[c.id].nome) c.nome = ov[c.id].nome; if (ov[c.id].emoji) c.emoji = ov[c.id].emoji; }
+    });
+  }
+
+  // ─── CATEGORIAS (view ao vivo, aplica overrides) ───
+  // Usado em todo o código que lia CATEGORIAS antes
+  const CATEGORIAS = CATEGORIAS_SAIDA_BASE; // referência viva — overrides são aplicados em applySaidaOverrides()
 
   // ─── CATEGORIAS DE ENTRADA ───
   const CATEGORIAS_ENTRADA = [
+    { id: 'salario',      nome: 'Salário',       emoji: '💰' },
     { id: 'bleem',        nome: 'Bleem',       emoji: '🎬' },
     { id: 'desperta',     nome: 'Desperta',    emoji: '⛪' },
     { id: 'rc',           nome: 'RC',          emoji: '📡' },
@@ -7808,33 +8088,99 @@ buildItems();
   function saveCustomCats(cats) {
     localStorage.setItem(LS_CUSTOM_CATS, JSON.stringify(cats));
   }
+  // ─── FONTE ÚNICA: categorias de saída ────────────────────────────────────
+  // getAllCats e getAllExpenseCats são sinónimos — mesma fonte de dados.
+  // Qualquer categoria criada num sítio aparece nos dois (modal + budget editor).
   function getAllCats() {
+    applySaidaOverrides();
     const base = CATEGORIAS.filter(c => !['salario','transferencia'].includes(c.id));
-    return [...base, ...loadCustomCats()];
+    const custom = loadCustomExpenseCats();
+    const legacy = loadCustomCats();
+    const merged = [...custom];
+    legacy.forEach(c => { if (!merged.find(x => x.id === c.id)) merged.push(c); });
+    return [...base, ...merged];
   }
   window.getAllCats = getAllCats;
 
   function renderCatManageList() {
     const container = document.getElementById('finCatManageList');
     if (!container) return;
-    const custom = loadCustomCats();
-    const base = CATEGORIAS.filter(c => !['salario','transferencia'].includes(c.id));
+    const allCats = getAllCats();
 
-    // Categorias base (não removíveis) + custom (removíveis)
-    container.innerHTML =
-      base.map(c =>
-        `<div style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:16px;font-size:0.72rem;">
-          ${c.emoji} ${c.nome}
-        </div>`
-      ).join('') +
-      custom.map((c, i) =>
-        `<div style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:#fef3e2;border:1px solid #e8c97a;border-radius:16px;font-size:0.72rem;">
-          ${c.emoji} ${c.nome}
-          <button onclick="removeCustomCat(${i})" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:0.75rem;padding:0 0 0 4px;line-height:1;" title="Remover">✕</button>
-        </div>`
-      ).join('');
+    container.innerHTML = allCats.map(c => {
+      const isBase = CATEGORIAS.some(x => x.id === c.id);
+      const bg = isBase ? 'var(--surface2)' : '#fef3e2';
+      const border = isBase ? 'var(--border)' : '#e8c97a';
+      const deleteBtn = isBase ? '' : `<button onclick="deleteCatFromManage('${c.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:0.75rem;padding:0 0 0 2px;line-height:1;" title="Remover">✕</button>`;
+      return `<div style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:${bg};border:1px solid ${border};border-radius:16px;font-size:0.72rem;cursor:pointer;" onclick="openCatManageEdit('${c.id}',this)" title="Editar nome/emoji">
+        <span id="catManageLbl_${c.id}">${c.emoji} ${c.nome}</span>
+        ${deleteBtn}
+      </div>`;
+    }).join('');
   }
   window.renderCatManageList = renderCatManageList;
+
+  function deleteCatFromManage(catId) {
+    if (!confirm('Apagar esta categoria?')) return;
+    let cats = loadCustomExpenseCats().filter(c => c.id !== catId);
+    saveCustomExpenseCats(cats);
+    cats = loadCustomCats().filter(c => c.id !== catId);
+    saveCustomCats(cats);
+    renderCatManageList();
+    rebuildBudgetEditList();
+    // also update expense modal grid if open
+    if (document.getElementById('finAddExpenseModal')?.classList.contains('open')) {
+      renderExpenseCatGrid(_selectedExpenseCat);
+    }
+  }
+  window.deleteCatFromManage = deleteCatFromManage;
+
+  function openCatManageEdit(catId, chipEl) {
+    const allCats = getAllCats();
+    const cat = allCats.find(c => c.id === catId);
+    if (!cat) return;
+    const isBase = CATEGORIAS.some(x => x.id === catId);
+    // Replace chip with inline edit
+    const container = document.getElementById('finCatManageList');
+    chipEl.outerHTML = `
+      <div id="catManageForm_${catId}" style="display:inline-flex;align-items:center;gap:4px;padding:3px 6px;background:var(--surface);border:1px solid var(--accent);border-radius:12px;">
+        <input id="catMgEmoji_${catId}" maxlength="2" value="${cat.emoji}" style="width:28px;font-size:0.9rem;text-align:center;border:1px solid var(--border);border-radius:6px;padding:2px;background:var(--surface2);outline:none;">
+        <input id="catMgName_${catId}" value="${cat.nome}" maxlength="24" style="width:90px;font-size:0.72rem;border:1px solid var(--border);border-radius:6px;padding:2px 5px;background:var(--surface2);outline:none;" onkeydown="if(event.key==='Enter')saveCatManageEdit('${catId}');if(event.key==='Escape')renderCatManageList();">
+        <button onclick="saveCatManageEdit('${catId}')" style="padding:2px 6px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:0.65rem;cursor:pointer;">✓</button>
+        <button onclick="renderCatManageList()" style="padding:2px 5px;background:var(--surface);border:1px solid var(--border);border-radius:6px;font-size:0.65rem;cursor:pointer;">✕</button>
+      </div>`;
+    setTimeout(() => { const n = document.getElementById(`catMgName_${catId}`); if (n) n.focus(); }, 30);
+  }
+  window.openCatManageEdit = openCatManageEdit;
+
+  function saveCatManageEdit(catId) {
+    const emoji = (document.getElementById(`catMgEmoji_${catId}`)?.value.trim() || '📌');
+    const nome  = (document.getElementById(`catMgName_${catId}`)?.value.trim() || '');
+    if (!nome) { document.getElementById(`catMgName_${catId}`)?.focus(); return; }
+    const isBase = CATEGORIAS.some(x => x.id === catId);
+    if (isBase) {
+      const ov = loadSaidaOverrides();
+      ov[catId] = { emoji, nome };
+      saveSaidaOverrides(ov);
+      applySaidaOverrides();
+    } else {
+      // update in both custom stores
+      const cats = loadCustomExpenseCats();
+      const idx = cats.findIndex(c => c.id === catId);
+      if (idx >= 0) { cats[idx].emoji = emoji; cats[idx].nome = nome; }
+      saveCustomExpenseCats(cats);
+      const legacyCats = loadCustomCats();
+      const li = legacyCats.findIndex(c => c.id === catId);
+      if (li >= 0) { legacyCats[li].emoji = emoji; legacyCats[li].nome = nome; saveCustomCats(legacyCats); }
+    }
+    renderCatManageList();
+    rebuildBudgetEditList();
+    renderBudgets();
+    if (document.getElementById('finAddExpenseModal')?.classList.contains('open')) {
+      renderExpenseCatGrid(_selectedExpenseCat);
+    }
+  }
+  window.saveCatManageEdit = saveCatManageEdit;
 
   function addCustomCat() {
     const emojiEl = document.getElementById('finNewCatEmoji');
@@ -7843,22 +8189,25 @@ buildItems();
     const nome  = nameEl.value.trim();
     if (!nome) { nameEl.focus(); return; }
     const id = 'custom_' + nome.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'') + '_' + Date.now();
-    const cats = loadCustomCats();
-    cats.push({ id, nome, emoji });
-    saveCustomCats(cats);
+    // Escreve nas duas stores (fonte única: LS_CUSTOM_EXPENSE_CATS)
+    const expCats = loadCustomExpenseCats();
+    if (!expCats.find(c => c.id === id)) { expCats.push({ id, nome, emoji }); saveCustomExpenseCats(expCats); }
+    const legCats = loadCustomCats();
+    if (!legCats.find(c => c.id === id)) { legCats.push({ id, nome, emoji }); saveCustomCats(legCats); }
     emojiEl.value = '';
     nameEl.value  = '';
     renderCatManageList();
     rebuildBudgetEditList();
+    if (document.getElementById('finAddExpenseModal')?.classList.contains('open')) {
+      renderExpenseCatGrid(_selectedExpenseCat);
+    }
   }
   window.addCustomCat = addCustomCat;
 
   function removeCustomCat(idx) {
+    // legacy fallback — usa deleteCatFromManage quando possível
     const cats = loadCustomCats();
-    cats.splice(idx, 1);
-    saveCustomCats(cats);
-    renderCatManageList();
-    rebuildBudgetEditList();
+    if (idx >= 0 && idx < cats.length) { const id = cats[idx].id; deleteCatFromManage(id); }
   }
   window.removeCustomCat = removeCustomCat;
 
@@ -7890,6 +8239,12 @@ buildItems();
     document.getElementById('finBudgetModal').classList.remove('open');
   }
   window.closeBudgetEditor = closeBudgetEditor;
+
+  // Alias para abrir o gerenciador de categorias
+  function openCategoryManagerModal() {
+    openBudgetEditor();
+  }
+  window.openCategoryManagerModal = openCategoryManagerModal;
 
   async function saveBudgets() {
     const inputs = document.querySelectorAll('.budget-input');
@@ -7958,14 +8313,7 @@ buildItems();
         </div>`;
     }).join('');
 
-    // bloquinho "+"
-    const addBtnId = isCatModal ? 'finCatAddSourceBtn' : 'finSourceAddBtn';
-    const addOnClick = isCatModal ? 'openNewCatSourceInline()' : 'openNewSourceInline()';
-    grid.innerHTML += `
-      <button class="${btnClass} fin-source-add-btn" id="${addBtnId}" onclick="${addOnClick}" title="Nova fonte">
-        <span class="${emojiClass}">＋</span>
-        <span style="font-size:0.65rem;color:var(--text3)">Nova fonte</span>
-      </button>`;
+    // bloquinho "+" — removido: o "+" só existe no dashboard
   }
   window.renderSourceGrid = renderSourceGrid;
 
@@ -7989,12 +8337,9 @@ buildItems();
         <div class="row">
           <input id="finSrcEditEmoji_${sourceId}" maxlength="2" value="${source.emoji}"
             style="width:36px;font-size:1.1rem;text-align:center;border:1px solid var(--border);border-radius:8px;padding:4px;background:var(--surface2);outline:none;">
-          ${isCustom
-            ? `<input id="finSrcEditName_${sourceId}" value="${source.nome}" maxlength="20"
+          <input id="finSrcEditName_${sourceId}" value="${source.nome}" maxlength="20"
                 style="flex:1;font-size:0.75rem;border:1px solid var(--border);border-radius:8px;padding:4px 8px;background:var(--surface2);outline:none;"
-                onkeydown="if(event.key==='Enter')saveSourceEdit('${gridId}','${sourceId}',${isCatModal});if(event.key==='Escape')cancelSourceEdit('${gridId}','${sourceId}',${isCatModal});">`
-            : `<span style="flex:1;font-size:0.75rem;padding:4px 8px;color:var(--text3);align-self:center;">${source.nome}</span>`
-          }
+                onkeydown="if(event.key==='Enter')saveSourceEdit('${gridId}','${sourceId}',${isCatModal});if(event.key==='Escape')cancelSourceEdit('${gridId}','${sourceId}',${isCatModal});">
         </div>
         <div class="row">
           <button onclick="saveSourceEdit('${gridId}','${sourceId}',${isCatModal})" style="flex:1;padding:5px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:0.7rem;cursor:pointer;">✓</button>
@@ -8023,13 +8368,14 @@ buildItems();
       if (idx >= 0) { custom[idx].emoji = emoji; if (nome) custom[idx].nome = nome; }
       saveCustomSources(custom);
     } else {
-      // builtIn: apenas emoji — guarda override em localStorage
+      // builtIn: guarda override de nome+emoji em localStorage
       const overrides = loadEmojiOverrides();
-      overrides[sourceId] = emoji;
+      const nome = nameEl ? nameEl.value.trim() : null;
+      overrides[sourceId] = { emoji, ...(nome ? { nome } : {}) };
       saveEmojiOverrides(overrides);
       // aplica no CATEGORIAS_ENTRADA em memória
       const c = CATEGORIAS_ENTRADA.find(c => c.id === sourceId);
-      if (c) c.emoji = emoji;
+      if (c) { c.emoji = emoji; if (nome) c.nome = nome; }
     }
 
     const selId = isCatModal ? State.selectedCat : _selectedIncomeSource;
@@ -8075,7 +8421,12 @@ buildItems();
   }
   function applyEmojiOverrides() {
     const overrides = loadEmojiOverrides();
-    CATEGORIAS_ENTRADA.forEach(c => { if (overrides[c.id]) c.emoji = overrides[c.id]; });
+    CATEGORIAS_ENTRADA.forEach(c => {
+      const ov = overrides[c.id];
+      if (!ov) return;
+      if (typeof ov === 'string') { c.emoji = ov; } // legacy format
+      else { if (ov.emoji) c.emoji = ov.emoji; if (ov.nome) c.nome = ov.nome; }
+    });
   }
 
   function renderIncomeSourceGrid() {
@@ -8143,6 +8494,266 @@ buildItems();
     document.getElementById('finAddIncomeModal').classList.remove('open');
   }
   window.closeAddIncomeModal = closeAddIncomeModal;
+
+  // ─── MODAL: NOVA SAÍDA ───
+  let _selectedExpenseCat = null;
+  const LS_CUSTOM_EXPENSE_CATS = 'fin_custom_expense_cats_v1';
+
+  function loadCustomExpenseCats() {
+    try { return JSON.parse(localStorage.getItem(LS_CUSTOM_EXPENSE_CATS) || '[]'); } catch(e) { return []; }
+  }
+  function saveCustomExpenseCats(arr) { localStorage.setItem(LS_CUSTOM_EXPENSE_CATS, JSON.stringify(arr)); }
+
+  // Retorna TODAS as cats de saída: base (com overrides) + custom criadas via modal de saída
+  // NOTA: getAllCats() já faz o mesmo mas inclui as do budget editor.
+  // Esta é a fonte de verdade para categorias de saída.
+  function getAllExpenseCats() {
+    applySaidaOverrides();
+    const base = CATEGORIAS.filter(c => !['salario','transferencia'].includes(c.id));
+    const custom = loadCustomExpenseCats();
+    // Merge custom das finanças antigas (LS_CUSTOM_CATS) se existirem
+    const legacyCats = loadCustomCats();
+    const allCustomIds = new Set([...custom.map(c=>c.id), ...legacyCats.map(c=>c.id)]);
+    const merged = [...custom];
+    legacyCats.forEach(c => { if (!merged.find(x => x.id === c.id)) merged.push(c); });
+    return [...base, ...merged];
+  }
+  window.getAllExpenseCats = getAllExpenseCats;
+
+  // ─── RENDER GRID DE CATEGORIAS DE SAÍDA (dashboard modal) ───
+  function renderExpenseCatGrid(selectedId) {
+    const grid = document.getElementById('finExpenseCatGrid');
+    if (!grid) return;
+    const cats = getAllExpenseCats();
+    grid.innerHTML = cats.map(c => {
+      const sel = selectedId === c.id ? 'selected' : '';
+      return `
+        <div class="fin-source-edit-row">
+          <button class="fin-source-btn ${sel}" data-id="${c.id}" onclick="selectExpenseCat('${c.id}',this)">
+            <span class="src-emoji">${c.emoji}</span>
+            <span>${c.nome}</span>
+          </button>
+          <button class="fin-src-edit-btn" onclick="event.stopPropagation();openExpenseCatEditInline('${c.id}')" title="Editar">✎</button>
+        </div>`;
+    }).join('');
+    // bloquinho "+" removido: o "+" só existe no dashboard
+  }
+
+  function openExpenseCatEditInline(catId) {
+    const allCats = getAllExpenseCats();
+    const cat = allCats.find(c => c.id === catId);
+    if (!cat) return;
+    const isBase = CATEGORIAS.some(c => c.id === catId);
+    const isCustomLegacy = loadCustomCats().some(c => c.id === catId);
+    const isCustomExpense = loadCustomExpenseCats().some(c => c.id === catId);
+    const isCustom = isCustomLegacy || isCustomExpense;
+
+    const row = document.querySelector(`#finExpenseCatGrid [data-id="${catId}"]`)?.closest('.fin-source-edit-row');
+    if (!row) return;
+    const deleteBtn = isCustom
+      ? `<button onclick="deleteExpenseCat('${catId}')" style="padding:5px 8px;background:#b83228;color:#fff;border:none;border-radius:7px;font-size:0.7rem;cursor:pointer;">🗑</button>`
+      : '';
+    row.outerHTML = `
+      <div class="fin-source-edit-inline" id="expCatEditForm_${catId}">
+        <div class="row">
+          <input id="expCatEditEmoji_${catId}" maxlength="2" value="${cat.emoji}"
+            style="width:36px;font-size:1.1rem;text-align:center;border:1px solid var(--border);border-radius:8px;padding:4px;background:var(--surface2);outline:none;">
+          ${isCustom
+            ? `<input id="expCatEditName_${catId}" value="${cat.nome}" maxlength="24"
+                style="flex:1;font-size:0.75rem;border:1px solid var(--border);border-radius:8px;padding:4px 8px;background:var(--surface2);outline:none;"
+                onkeydown="if(event.key==='Enter')saveExpenseCatEdit('${catId}');if(event.key==='Escape')renderExpenseCatGrid(_selectedExpenseCat);">`
+            : `<input id="expCatEditName_${catId}" value="${cat.nome}" maxlength="24"
+                style="flex:1;font-size:0.75rem;border:1px solid var(--border);border-radius:8px;padding:4px 8px;background:var(--surface2);outline:none;"
+                onkeydown="if(event.key==='Enter')saveExpenseCatEdit('${catId}');if(event.key==='Escape')renderExpenseCatGrid(_selectedExpenseCat);">`
+          }
+        </div>
+        <div class="row">
+          <button onclick="saveExpenseCatEdit('${catId}')" style="flex:1;padding:5px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:0.7rem;cursor:pointer;">✓</button>
+          ${deleteBtn}
+          <button onclick="renderExpenseCatGrid(_selectedExpenseCat)" style="flex:1;padding:5px;background:var(--surface);border:1px solid var(--border);border-radius:7px;font-size:0.7rem;cursor:pointer;">✕</button>
+        </div>
+      </div>`;
+    setTimeout(() => {
+      const ni = document.getElementById(`expCatEditName_${catId}`);
+      const ei = document.getElementById(`expCatEditEmoji_${catId}`);
+      if (ni) ni.focus(); else if (ei) ei.focus();
+    }, 50);
+  }
+  window.openExpenseCatEditInline = openExpenseCatEditInline;
+
+  function saveExpenseCatEdit(catId) {
+    const emoji = (document.getElementById(`expCatEditEmoji_${catId}`)?.value.trim() || '📌');
+    const nameEl = document.getElementById(`expCatEditName_${catId}`);
+    const isBase = CATEGORIAS.some(c => c.id === catId);
+    const isCustomExpense = loadCustomExpenseCats().some(c => c.id === catId);
+    const isCustomLegacy = loadCustomCats().some(c => c.id === catId);
+
+    if (isBase) {
+      // Guarda override de nome+emoji para cat base
+      const ov = loadSaidaOverrides();
+      const nome = nameEl ? nameEl.value.trim() : null;
+      ov[catId] = { emoji, ...(nome ? { nome } : {}) };
+      saveSaidaOverrides(ov);
+      applySaidaOverrides();
+    } else if (isCustomExpense) {
+      const nome = nameEl ? nameEl.value.trim() : null;
+      if (nameEl && !nome) { nameEl.focus(); return; }
+      const cats = loadCustomExpenseCats();
+      const idx = cats.findIndex(c => c.id === catId);
+      if (idx >= 0) { cats[idx].emoji = emoji; if (nome) cats[idx].nome = nome; }
+      saveCustomExpenseCats(cats);
+    } else if (isCustomLegacy) {
+      const nome = nameEl ? nameEl.value.trim() : null;
+      if (nameEl && !nome) { nameEl.focus(); return; }
+      const cats = loadCustomCats();
+      const idx = cats.findIndex(c => c.id === catId);
+      if (idx >= 0) { cats[idx].emoji = emoji; if (nome) cats[idx].nome = nome; }
+      saveCustomCats(cats);
+    }
+    renderExpenseCatGrid(_selectedExpenseCat);
+    rebuildBudgetEditList();
+    renderCatManageList();
+    renderBudgets(); // sync dashboard budgets
+  }
+  window.saveExpenseCatEdit = saveExpenseCatEdit;
+
+  function deleteExpenseCat(catId) {
+    if (!confirm('Apagar esta categoria?')) return;
+    let cats = loadCustomExpenseCats().filter(c => c.id !== catId);
+    saveCustomExpenseCats(cats);
+    // também remove do legacy se existir lá
+    cats = loadCustomCats().filter(c => c.id !== catId);
+    saveCustomCats(cats);
+    if (_selectedExpenseCat === catId) _selectedExpenseCat = null;
+    renderExpenseCatGrid(_selectedExpenseCat);
+    rebuildBudgetEditList();
+    renderCatManageList();
+    renderBudgets(); // sync dashboard budgets
+  }
+  window.deleteExpenseCat = deleteExpenseCat;
+
+  function openNewExpenseCatInline() {
+    const addBtn = document.getElementById('finExpenseCatAddBtn');
+    if (!addBtn) return;
+    addBtn.outerHTML = `
+      <div class="fin-source-inline-form" id="finExpenseCatInlineForm">
+        <input id="finExpCatEmojiInput" maxlength="2" placeholder="🏷️"
+          style="width:36px;font-size:1.1rem;text-align:center;border:1px solid var(--border);border-radius:8px;padding:4px;background:var(--surface2);outline:none;">
+        <input id="finExpCatNameInput" placeholder="Nome..." maxlength="24"
+          style="flex:1;font-size:0.75rem;border:1px solid var(--border);border-radius:8px;padding:4px 8px;background:var(--surface2);outline:none;"
+          onkeydown="if(event.key==='Enter')confirmNewExpenseCat();if(event.key==='Escape')renderExpenseCatGrid(_selectedExpenseCat);">
+        <div style="display:flex;gap:4px;margin-top:4px;">
+          <button onclick="confirmNewExpenseCat()" style="flex:1;padding:5px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:0.7rem;cursor:pointer;">✓</button>
+          <button onclick="renderExpenseCatGrid(_selectedExpenseCat)" style="flex:1;padding:5px;background:var(--surface);border:1px solid var(--border);border-radius:7px;font-size:0.7rem;cursor:pointer;">✕</button>
+        </div>
+      </div>`;
+    setTimeout(() => { const n = document.getElementById('finExpCatNameInput'); if (n) n.focus(); }, 50);
+  }
+  window.openNewExpenseCatInline = openNewExpenseCatInline;
+
+  function confirmNewExpenseCat() {
+    const emoji = (document.getElementById('finExpCatEmojiInput').value.trim() || '📌');
+    const nome  = document.getElementById('finExpCatNameInput').value.trim();
+    if (!nome) { document.getElementById('finExpCatNameInput').focus(); return; }
+    const id = 'custom_' + nome.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,12) + '_' + Date.now().toString(36);
+    const cats = loadCustomExpenseCats();
+    cats.push({ id, nome, emoji });
+    saveCustomExpenseCats(cats);
+    _selectedExpenseCat = id;
+    renderExpenseCatGrid(id);
+    rebuildBudgetEditList();
+    renderCatManageList();
+  }
+  window.confirmNewExpenseCat = confirmNewExpenseCat;
+
+  function selectExpenseCat(id, btn) {
+    _selectedExpenseCat = id;
+    document.querySelectorAll('#finExpenseCatGrid .fin-source-btn').forEach(b => b.classList.remove('selected'));
+    if (btn) btn.classList.add('selected');
+  }
+  window.selectExpenseCat = selectExpenseCat;
+
+  // ─── CHOICE MODAL: ENTRADA OU SAÍDA ───
+  function openAddChoiceModal() {
+    document.getElementById('finAddChoiceModal').classList.add('open');
+  }
+  window.openAddChoiceModal = openAddChoiceModal;
+
+  // Alias para o botão + pequeno da aba de transações
+  function openFinAddChoiceModal() {
+    openAddChoiceModal();
+  }
+  window.openFinAddChoiceModal = openFinAddChoiceModal;
+
+  function closeAddChoiceModal() {
+    document.getElementById('finAddChoiceModal').classList.remove('open');
+  }
+  window.closeAddChoiceModal = closeAddChoiceModal;
+
+  function openAddExpenseModal() {
+    _selectedExpenseCat = null;
+    document.getElementById('finExpenseValor').value = '';
+    document.getElementById('finExpenseDesc').value = '';
+    document.getElementById('finExpenseData').value = new Date().toISOString().slice(0, 10);
+    document.getElementById('finExpenseConta').value = 'novo_banco';
+    applySaidaOverrides();
+    renderExpenseCatGrid(null);
+    document.getElementById('finAddExpenseModal').classList.add('open');
+    setTimeout(() => document.getElementById('finExpenseValor').focus(), 300);
+  }
+  window.openAddExpenseModal = openAddExpenseModal;
+
+  function closeAddExpenseModal() {
+    document.getElementById('finAddExpenseModal').classList.remove('open');
+  }
+  window.closeAddExpenseModal = closeAddExpenseModal;
+
+  async function confirmAddExpense() {
+    const valorRaw = parseFloat(document.getElementById('finExpenseValor').value);
+    const desc     = document.getElementById('finExpenseDesc').value.trim();
+    const data     = document.getElementById('finExpenseData').value;
+    const conta    = document.getElementById('finExpenseConta').value;
+
+    if (!valorRaw || isNaN(valorRaw) || valorRaw <= 0) { alert('Valor inválido.'); return; }
+    if (!desc) { alert('Adiciona uma descrição.'); return; }
+    if (!data) { alert('Seleciona a data.'); return; }
+    if (!_selectedExpenseCat) { alert('Escolhe a categoria da saída.'); return; }
+
+    const valor = -Math.abs(valorRaw); // saídas são negativas
+    const idCounter = {};
+    const id_transacao = buildTxId(data, desc, valor, conta, idCounter);
+
+    const tx = {
+      id_transacao,
+      data,
+      valor,
+      descricao: desc,
+      conta,
+      categoria: _selectedExpenseCat,
+      tipo: 'saida',
+    };
+
+    const existing = new Set(State.transactions.map(t => t.id_transacao));
+    const existingSigs = new Set(State.transactions.map(t => `${t.data}|${(t.descricao||'').trim().toLowerCase()}|${t.valor}`));
+    const sig = `${tx.data}|${tx.descricao.trim().toLowerCase()}|${tx.valor}`;
+    if (existing.has(tx.id_transacao) || existingSigs.has(sig)) {
+      alert('Esta saída já existe.');
+      return;
+    }
+
+    State.transactions.push(tx);
+    saveCache();
+    render();
+    closeAddExpenseModal();
+    if (typeof _onBigTransaction === 'function') _onBigTransaction(tx);
+    if (typeof _checkBudgets === 'function') setTimeout(_checkBudgets, 500);
+
+    if (State.apiUrl) {
+      try { await apiCall('importTransactions', { transactions: [tx], bank: conta }); }
+      catch(e) { console.warn('Sync saída falhou:', e.message); }
+    }
+  }
+  window.confirmAddExpense = confirmAddExpense;
 
   async function confirmAddIncome() {
     const valorRaw = parseFloat(document.getElementById('finIncomeValor').value);
@@ -8677,8 +9288,18 @@ buildItems();
   let _activeChartType = null; // 'pie' | 'heatmap' | null
 
   const PIE_COLORS = [
-    '#a87228','#3a7d54','#4a7fa5','#c45c3a','#7a5aa5','#3a7d7d','#c4943a',
-    '#5a6aa5','#8a7228','#3a5a7d','#c43a5c','#7d5a3a','#5a7d3a','#a53a7a',
+    // Warm tones
+    '#D4A574', '#C58552', '#B7703F', '#E8C4A0', 
+    // Cool tones
+    '#4A7C8C', '#5A9CAA', '#3D6B7A', '#6BA8B5',
+    // Accent tones
+    '#C45C4A', '#D47C5C', '#A54A3A', '#E0937A',
+    // Green tones
+    '#4A8C5C', '#5AA566', '#3A7A4A', '#6BA976',
+    // Purple tones
+    '#7A5C8C', '#8A6CA0', '#6A4C7A', '#9A7CB0',
+    // Secondary warm
+    '#8A7C4A', '#A09A52', '#6A6A38', '#B5A968',
   ];
 
   function toggleAllCharts(btn) {
@@ -8720,12 +9341,16 @@ buildItems();
   }
   window.switchPieType = switchPieType;
 
+  // Pie slice metadata for hover
+  let _pieSliceMeta = [];
+
   function renderPieChart() {
     const canvas = document.getElementById('finPieCanvas');
     const legend = document.getElementById('finPieLegend');
     if (!canvas || !legend) return;
 
-    const list = getDateFilteredTx().filter(t => t.tipo === _pieType);
+    const allTx = getDateFilteredTx();
+    const list = allTx.filter(t => t.tipo === _pieType);
 
     // Aggregate by category
     const bycat = {};
@@ -8735,7 +9360,23 @@ buildItems();
     });
 
     const entries = Object.entries(bycat).sort((a,b) => b[1]-a[1]);
-    const total   = entries.reduce((s,e) => s+e[1], 0);
+    const totalSpent = entries.reduce((s,e) => s+e[1], 0);
+
+    // Calculate remaining from income (only for 'saida' view)
+    let remainingAmt = 0;
+    let totalForPie = totalSpent;
+    if (_pieType === 'saida') {
+      const totalIncome = allTx.filter(t => t.tipo === 'entrada').reduce((s,t) => s + Math.abs(+t.valor), 0);
+      // Only show "sobrou" slice when income covers all spending.
+      // totalForPie must NEVER be less than totalSpent — otherwise slices overflow 100%.
+      if (totalIncome > totalSpent) {
+        remainingAmt = totalIncome - totalSpent;
+        totalForPie = totalIncome;
+      } else {
+        remainingAmt = 0;
+        totalForPie = totalSpent; // base on actual spending only
+      }
+    }
 
     // Setup canvas with DPR for sharp rendering
     const dpr  = window.devicePixelRatio || 1;
@@ -8749,11 +9390,14 @@ buildItems();
     canvas.style.width  = size + 'px';
     canvas.style.height = size + 'px';
     const ctx = canvas.getContext('2d');
+    // Reset transform to avoid accumulation on repeated calls
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
 
-    if (!entries.length || total === 0) {
+    if (!entries.length || totalForPie === 0) {
       ctx.clearRect(0,0,size,size);
       legend.innerHTML = `<div style="font-size:0.72rem;color:var(--text3);padding:8px 0;">Sem dados para o período selecionado.</div>`;
+      _pieSliceMeta = [];
       return;
     }
 
@@ -8761,49 +9405,263 @@ buildItems();
     const cx = size / 2;
     const cy = size / 2;
     const r  = Math.min(cx, cy) - 8;
+    const innerR = r * 0.5;
 
     ctx.clearRect(0,0,size,size);
 
+    _pieSliceMeta = [];
+    const strokeColor = getComputedStyle(document.documentElement).getPropertyValue('--surface').trim() || '#fff';
+
     let startAngle = -Math.PI / 2;
+
+    // Inner donut hole bg color
+    const finSection = document.getElementById('sectionFinancas');
+    const bgColor = finSection
+      ? getComputedStyle(finSection).getPropertyValue('--fin-surface').trim() || '#161618'
+      : getComputedStyle(document.documentElement).getPropertyValue('--surface').trim() || '#fff';
+
+    // Draw all slice fills first (no stroke yet)
     entries.forEach(([catId, amt], i) => {
-      const slice = (amt / total) * 2 * Math.PI;
+      const slice = (amt / totalForPie) * 2 * Math.PI;
       const color = PIE_COLORS[i % PIE_COLORS.length];
+      _pieSliceMeta.push({ catId, amt, color, startAngle, endAngle: startAngle + slice });
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.arc(cx, cy, r, startAngle, startAngle + slice);
       ctx.closePath();
       ctx.fillStyle = color;
       ctx.fill();
-      // subtle gap
-      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--surface').trim() || '#fff';
-      ctx.lineWidth = 2;
+      // Subtle shadow on outer edge
+      ctx.strokeStyle = 'rgba(0,0,0,0.05)';
+      ctx.lineWidth = 1;
       ctx.stroke();
       startAngle += slice;
     });
 
-    // Inner donut hole — use bg color from CSS variable (dark mode aware)
-    const finSection = document.getElementById('sectionFinancas');
-    const bgColor = finSection
-      ? getComputedStyle(finSection).getPropertyValue('--fin-surface').trim() || '#161618'
-      : getComputedStyle(document.documentElement).getPropertyValue('--surface').trim() || '#fff';
+    // Draw remaining slice fill
+    if (_pieType === 'saida' && remainingAmt > 0) {
+      const remSlice = (remainingAmt / totalForPie) * 2 * Math.PI;
+      const remColor = '#5CA876';  // Improved green
+      _pieSliceMeta.push({ catId: '__remaining__', amt: remainingAmt, color: remColor, startAngle, endAngle: startAngle + remSlice });
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, startAngle, startAngle + remSlice);
+      ctx.closePath();
+      ctx.fillStyle = remColor;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(0,0,0,0.05)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // Draw inner donut hole BEFORE strokes so hole is clean
     ctx.beginPath();
-    ctx.arc(cx, cy, r * 0.5, 0, 2 * Math.PI);
+    ctx.arc(cx, cy, innerR, 0, 2 * Math.PI);
     ctx.fillStyle = bgColor;
     ctx.fill();
 
-    // Legend
-    legend.innerHTML = entries.slice(0, 10).map(([catId, amt], i) => {
+    // Draw separator strokes: only radial lines at slice boundaries (no arc strokes)
+    // This avoids drawing over slice fills and creates clean dividers
+    ctx.save();
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = 2;
+    _pieSliceMeta.forEach(({ startAngle: sa }) => {
+      // Draw a radial line from innerR to r at each slice boundary
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(sa) * innerR, cy + Math.sin(sa) * innerR);
+      ctx.lineTo(cx + Math.cos(sa) * r, cy + Math.sin(sa) * r);
+      ctx.stroke();
+    });
+    ctx.restore();
+
+    // Re-draw inner donut hole LAST to cleanly cover any artifacts at centre
+    ctx.beginPath();
+    ctx.arc(cx, cy, innerR, 0, 2 * Math.PI);
+    ctx.fillStyle = bgColor;
+    ctx.fill();
+
+    // Legend (with remaining at the end if applicable)
+    const legendEntries = entries.slice(0, 10).map(([catId, amt], i) => {
       const cat   = catById(catId === '__none__' ? null : catId);
-      const pct   = Math.round((amt / total) * 100);
+      const pct   = totalForPie > 0 ? Math.round((amt / totalForPie) * 100) : 0;
       const color = PIE_COLORS[i % PIE_COLORS.length];
       return `<div class="fin-pie-legend-item">
         <div class="fin-pie-legend-dot" style="background:${color}"></div>
         <span class="fin-pie-legend-label">${cat.emoji} ${cat.nome} (${pct}%)</span>
         <span class="fin-pie-legend-amt">${fmtEur(amt)}</span>
       </div>`;
-    }).join('');
+    });
+
+    if (_pieType === 'saida' && remainingAmt > 0) {
+      const remPct = Math.round((remainingAmt / totalForPie) * 100);
+      legendEntries.push(`<div class="fin-pie-legend-item">
+        <div class="fin-pie-legend-dot" style="background:#3a7d54"></div>
+        <span class="fin-pie-legend-label">✅ Sobrou (${remPct}%)</span>
+        <span class="fin-pie-legend-amt">${fmtEur(remainingAmt)}</span>
+      </div>`);
+    }
+
+    legend.innerHTML = legendEntries.join('');
+
+    // ── Hover interaction ───────────────────────────────────────
+    const hoverLabel = document.getElementById('finPieHoverLabel');
+    const hoverPct   = document.getElementById('finPieHoverPct');
+    const hoverName  = document.getElementById('finPieHoverName');
+
+    // Always hide label on re-render (filter change, etc.)
+    if (hoverLabel) hoverLabel.classList.remove('visible');
+
+    // Store closure vars for redraw
+    const _cx = cx, _cy = cy, _r = r, _innerR = innerR;
+    const _bg = bgColor, _stroke = strokeColor;
+    const _entries = entries.slice();
+    const _remAmt = remainingAmt;
+    const _totForPie = totalForPie;
+
+    // Remove old listeners
+    if (canvas._pieHoverHandler) canvas.removeEventListener('mousemove', canvas._pieHoverHandler);
+    if (canvas._pieLeaveHandler) canvas.removeEventListener('mouseleave', canvas._pieLeaveHandler);
+    if (canvas._pieTouchHandler) canvas.removeEventListener('touchmove', canvas._pieTouchHandler);
+    if (canvas._pieTouchEndHandler) canvas.removeEventListener('touchend', canvas._pieTouchEndHandler);
+
+    function onPieHover(e) {
+      if (!hoverLabel) return;
+      const rect = canvas.getBoundingClientRect();
+      const px = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      const py = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+      const dx = px - size / 2;
+      const dy = py - size / 2;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+
+      if (dist < _innerR || dist > _r + 6) {
+        hoverLabel.classList.remove('visible');
+        _redrawPie(ctx, size, _cx, _cy, _r, _innerR, _bg, _stroke, _totForPie, _entries, _remAmt, -1);
+        return;
+      }
+
+      // Normalize angle: pie starts at -PI/2
+      let a = Math.atan2(dy, dx) + Math.PI / 2;
+      if (a < 0) a += 2 * Math.PI;
+      if (a > 2 * Math.PI) a -= 2 * Math.PI;
+
+      let found = -1;
+      for (let i = 0; i < _pieSliceMeta.length; i++) {
+        let s = _pieSliceMeta[i].startAngle + Math.PI / 2;
+        let en = _pieSliceMeta[i].endAngle + Math.PI / 2;
+        if (s < 0) s += 2 * Math.PI;
+        if (en < 0) en += 2 * Math.PI;
+        if (s > en) { // wrap
+          if (a >= s || a <= en) { found = i; break; }
+        } else {
+          if (a >= s && a <= en) { found = i; break; }
+        }
+      }
+
+      if (found === -1) {
+        hoverLabel.classList.remove('visible');
+        _redrawPie(ctx, size, _cx, _cy, _r, _innerR, _bg, _stroke, _totForPie, _entries, _remAmt, -1);
+        return;
+      }
+
+      const sl = _pieSliceMeta[found];
+      const pct = _totForPie > 0 ? Math.round((sl.amt / _totForPie) * 100) : 0;
+      let name;
+      if (sl.catId === '__remaining__') {
+        name = '✅ Sobrou';
+      } else {
+        const cat = catById(sl.catId === '__none__' ? null : sl.catId);
+        name = cat.emoji + ' ' + cat.nome;
+      }
+
+      if (hoverPct) hoverPct.textContent = pct + '%';
+      if (hoverName) hoverName.textContent = name;
+      hoverLabel.classList.add('visible');
+
+      _redrawPie(ctx, size, _cx, _cy, _r, _innerR, _bg, _stroke, _totForPie, _entries, _remAmt, found);
+    }
+
+    function onPieLeave() {
+      if (hoverLabel) hoverLabel.classList.remove('visible');
+      _redrawPie(ctx, size, _cx, _cy, _r, _innerR, _bg, _stroke, _totForPie, _entries, _remAmt, -1);
+    }
+
+    canvas._pieHoverHandler = onPieHover;
+    canvas._pieLeaveHandler = onPieLeave;
+    canvas._pieTouchHandler = onPieHover;
+    canvas._pieTouchEndHandler = onPieLeave;
+
+    canvas.addEventListener('mousemove', onPieHover);
+    canvas.addEventListener('mouseleave', onPieLeave);
+    canvas.addEventListener('touchmove', onPieHover, { passive: true });
+    canvas.addEventListener('touchend', onPieLeave);
   }
   window.renderPieChart = renderPieChart;
+
+  function _redrawPie(ctx, size, cx, cy, r, innerR, bgColor, strokeColor, totalForPie, entries, remainingAmt, highlightIdx) {
+    ctx.clearRect(0, 0, size, size);
+    let startAngle = -Math.PI / 2;
+    const sliceBoundaries = [startAngle]; // track boundaries for radial separators
+
+    // 1. Draw all fills
+    entries.forEach(([catId, amt], i) => {
+      const slice = (amt / totalForPie) * 2 * Math.PI;
+      const color = PIE_COLORS[i % PIE_COLORS.length];
+      const isHl = i === highlightIdx;
+      const rr = isHl ? r + 5 : r;
+      ctx.save();
+      if (isHl) { ctx.shadowColor = color; ctx.shadowBlur = 12; }
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, rr, startAngle, startAngle + slice);
+      ctx.closePath();
+      ctx.fillStyle = isHl ? color : color + 'cc';
+      ctx.fill();
+      ctx.restore();
+      startAngle += slice;
+      sliceBoundaries.push(startAngle);
+    });
+
+    if (_pieType === 'saida' && remainingAmt > 0) {
+      const remSlice = (remainingAmt / totalForPie) * 2 * Math.PI;
+      const remColor = '#3a7d54';
+      const isHl = highlightIdx === entries.length;
+      const rr = isHl ? r + 5 : r;
+      ctx.save();
+      if (isHl) { ctx.shadowColor = remColor; ctx.shadowBlur = 12; }
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, rr, startAngle, startAngle + remSlice);
+      ctx.closePath();
+      ctx.fillStyle = isHl ? remColor : remColor + 'cc';
+      ctx.fill();
+      ctx.restore();
+      sliceBoundaries.push(startAngle + remSlice);
+    }
+
+    // 2. Draw inner hole (before separators so they sit on top of hole edge)
+    ctx.beginPath();
+    ctx.arc(cx, cy, innerR, 0, 2 * Math.PI);
+    ctx.fillStyle = bgColor;
+    ctx.fill();
+
+    // 3. Draw radial separators only (no arc strokes — they cause the overlap artifacts)
+    ctx.save();
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = 2;
+    sliceBoundaries.forEach(angle => {
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(angle) * innerR, cy + Math.sin(angle) * innerR);
+      ctx.lineTo(cx + Math.cos(angle) * r, cy + Math.sin(angle) * r);
+      ctx.stroke();
+    });
+    ctx.restore();
+
+    // 4. Redraw hole to cover separator ends at centre
+    ctx.beginPath();
+    ctx.arc(cx, cy, innerR, 0, 2 * Math.PI);
+    ctx.fillStyle = bgColor;
+    ctx.fill();
+  }
 
   // ─── HEATMAP ───
   function populateHeatmapCatSelect() {
@@ -9025,7 +9883,8 @@ buildItems();
       pool = [...CATEGORIAS, ...CATEGORIAS_ENTRADA, ...loadCustomSources()];
     }
 
-    const allCats = pool.filter(c => usedCats.has(c.id));
+    // Mostra TODAS as categorias do pool (não apenas as com transações)
+    const allCats = pool;
     const existing = row.querySelectorAll('.fin-filter-chip[data-catfilter]:not([data-catfilter="all"])');
     existing.forEach(e => e.remove());
     allCats.forEach(cat => {
@@ -9276,12 +10135,32 @@ buildItems();
     <span class="notif-toggle-icon">🛍️</span>
     <div class="notif-toggle-info">
       <div class="notif-toggle-name">Item comprado</div>
-      <div class="notif-toggle-desc">Notifica quando um item da lista é marcado como pago</div>
+      <div class="notif-toggle-desc">Envia email quando um item da lista é marcado como pago</div>
     </div>
     <label class="notif-switch">
       <input type="checkbox" id="ntToggleItemPaid" checked onchange="saveNotifSettings()">
       <span class="notif-switch-slider"></span>
     </label>
+  </label>
+
+  <label class="notif-toggle-row" style="flex-direction:column; align-items:flex-start; gap:8px; padding: 12px 0;">
+    <div style="display:flex; align-items:center; gap:8px; width:100%;">
+      <span class="notif-toggle-icon">📧</span>
+      <div class="notif-toggle-info">
+        <div class="notif-toggle-name">Emails de notificação</div>
+        <div class="notif-toggle-desc">Recebem email automático quando um item é comprado</div>
+      </div>
+    </div>
+    <input type="email" id="ntEmailNotif" placeholder="✉️ Will — email@exemplo.com"
+      onchange="saveNotifSettings()" oninput="saveNotifSettings()"
+      style="width:100%;padding:8px 14px;border-radius:12px;border:none;background:rgba(255,255,255,0.8);box-shadow:0 2px 10px rgba(0,0,0,0.08);font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--text);outline:none;"
+      onfocus="this.style.boxShadow='0 2px 10px rgba(0,0,0,0.08),0 0 0 3px rgba(168,114,40,0.2)'"
+      onblur="this.style.boxShadow='0 2px 10px rgba(0,0,0,0.08)'">
+    <input type="email" id="ntEmailNotif2" placeholder="✉️ Anna — email@exemplo.com"
+      onchange="saveNotifSettings()" oninput="saveNotifSettings()"
+      style="width:100%;padding:8px 14px;border-radius:12px;border:none;background:rgba(255,255,255,0.8);box-shadow:0 2px 10px rgba(0,0,0,0.08);font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--text);outline:none;"
+      onfocus="this.style.boxShadow='0 2px 10px rgba(0,0,0,0.08),0 0 0 3px rgba(168,114,40,0.2)'"
+      onblur="this.style.boxShadow='0 2px 10px rgba(0,0,0,0.08)'">
   </label>
 
   <label class="notif-toggle-row">
@@ -9376,6 +10255,8 @@ function getNotifSettings() {
       budget:       s.budget       !== false,
       budgetOver:   s.budgetOver   !== false,
       bigTx:        s.bigTx        !== false,
+      emailNotif:   s.emailNotif   || '',
+      emailNotif2:  s.emailNotif2  || '',
     };
   } catch(e) { return {}; }
 }
@@ -9392,6 +10273,8 @@ function saveNotifSettings() {
     budget:        document.getElementById('ntToggleBudget')?.checked   !== false,
     budgetOver:    document.getElementById('ntToggleBudgetOver')?.checked !== false,
     bigTx:         document.getElementById('ntToggleBigTx')?.checked    !== false,
+    emailNotif:    document.getElementById('ntEmailNotif')?.value        || '',
+    emailNotif2:   document.getElementById('ntEmailNotif2')?.value       || '',
   };
   localStorage.setItem(NOTIF_SETTINGS_KEY, JSON.stringify(s));
 }
@@ -9409,6 +10292,8 @@ function loadNotifSettingsUI() {
     ntToggleBudget: s.budget,
     ntToggleBudgetOver: s.budgetOver,
     ntToggleBigTx: s.bigTx,
+    ntEmailNotif:  s.emailNotif,
+    ntEmailNotif2: s.emailNotif2,
   };
   Object.entries(ids).forEach(([id, val]) => {
     const el = document.getElementById(id);
@@ -9652,17 +10537,358 @@ function _onNewTask(task) {
 
 // ─── HOOK: TAREFA CONCLUÍDA ───────────────────────────────────
 function _onTaskDone(task) {
+  // NOTA: A notificação de tarefa completa é apenas informativa
+  // Não regista automaticamente nas finanças
   const s = getNotifSettings();
   if (!s.taskDone) return;
   notify('success', '🎉', 'Tarefa concluída!', `"${task.name}" foi marcada como feita`);
+  // Qualquer registo em finanças é responsabilidade do utilizador
 }
 
-// ─── HOOK: ITEM COMPRADO ─────────────────────────────────────
+// ─── HOOK: ITEM COMPRADO (DESATIVADO) ─────────────────────────
+// Esta funcionalidade foi removida porque gerava conflitos entre
+// a lista de compras e as finanças. Agora são sistemas independentes.
+// Se queres registar uma compra nas finanças, faz-o manualmente.
 function _onItemPaid(itemName, price) {
   const s = getNotifSettings();
-  if (!s.itemPaid) return;
-  notify('purchase', '🛍️', 'Item comprado!', `${itemName} — €${price}`);
+  
+  // Se a notificação de compra está ativada, envia o email
+  if (s.itemPaid) {
+    _sendPurchaseEmail(itemName, price);
+  }
+  
+  // Também pode mostrar uma notificação visual local
+  // notify('purchase', '🛍️', 'Item comprado!', `"${itemName}" foi marcado como comprado`);
 }
+
+// ─── ENVIO DE EMAIL POR COMPRA ────────────────────────────────
+function _sendPurchaseEmail(itemName, price) {
+  const scriptUrl = localStorage.getItem('wa_script_url');
+  
+  // ⚠️ Validação: URL do script é obrigatória
+  if (!scriptUrl) {
+    console.warn('⚠️ [Email] URL do script não configurada. Vai em Configurar > Backend.');
+    return;
+  }
+ 
+  // Obter as settings de notificação
+  const s = getNotifSettings();
+  const email1 = (s.emailNotif || '').trim();
+  const email2 = (s.emailNotif2 || '').trim();
+ 
+  // ⚠️ Validação: Pelo menos um email é obrigatório
+  if (!email1 && !email2) {
+    console.warn('⚠️ [Email] Nenhum email configurado. Vai em Configurar > Notificações.');
+    showToast('warning', '⚠️', 'Email não configurado', 'Adiciona um email em Configurar > Notificações', 5000);
+    return;
+  }
+ 
+  // ✅ Monta o payload com todos os dados necessários
+  const payload = {
+    action: 'sendPurchaseEmail',
+    payload: {
+      itemName: String(itemName || '').trim(),
+      price: price ? Number(price) : null,
+      email1: email1,
+      email2: email2
+    }
+  };
+ 
+  // 📤 Chamada fetch com Content-Type correto
+  fetch(scriptUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json' // ⚠️ CRÍTICO: Sem isto, o Apps Script não recebe o JSON corretamente
+    },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.result?.ok) {
+        console.log(`✅ [Email] Enviado para ${data.result.sent} recipientes`);
+        showToast('success', '📧', 'Notificação enviada', `"${itemName}" enviado para ${data.result.sent} email(s)`, 4000);
+      } else if (data.error) {
+        console.error(`❌ [Email] Erro:`, data.error);
+        showToast('error', '❌', 'Erro ao enviar', data.error, 5000);
+      }
+    })
+    .catch(err => {
+      console.error(`❌ [Email] Fetch error:`, err.message);
+      showToast('error', '❌', 'Erro de conexão', 'Verifica a URL do script e a conexão', 5000);
+    });
+}
+ 
+function _sendTaskAddedEmail(taskName, addedBy) {
+  const scriptUrl = localStorage.getItem('wa_script_url');
+  if (!scriptUrl) {
+    console.warn('⚠️ [Email] URL do script não configurada.');
+    return;
+  }
+ 
+  const s = getNotifSettings();
+  if (!s.taskAdded) return; // Só envia se ativado
+ 
+  const email1 = (s.emailNotif || '').trim();
+  const email2 = (s.emailNotif2 || '').trim();
+ 
+  if (!email1 && !email2) {
+    console.warn('⚠️ [Email] Nenhum email configurado.');
+    return;
+  }
+ 
+  const payload = {
+    action: 'sendTaskAddedEmail',
+    payload: {
+      taskName: String(taskName || '').trim(),
+      addedBy: String(addedBy || 'Desconhecido').trim(),
+      email1: email1,
+      email2: email2
+    }
+  };
+ 
+  fetch(scriptUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.result?.ok) {
+        console.log(`✅ [Email] Tarefa adicionada enviado para ${data.result.sent} email(s)`);
+        showToast('success', '📧', 'Notificação enviada', `"${taskName}" adicionado para ${data.result.sent} email(s)`, 4000);
+      } else if (data.error) {
+        console.error(`❌ [Email] Erro:`, data.error);
+      }
+    })
+    .catch(err => {
+      console.error(`❌ [Email] Fetch error:`, err.message);
+    });
+}
+ 
+// ═══════════════════════════════════════════════════════════════════
+// 2. NOTIFICAÇÃO: TAREFA CONCLUÍDA
+// ═══════════════════════════════════════════════════════════════════
+ 
+function _sendTaskCompletedEmail(taskName, completedBy) {
+  const scriptUrl = localStorage.getItem('wa_script_url');
+  if (!scriptUrl) return;
+ 
+  const s = getNotifSettings();
+  if (!s.taskCompleted) return;
+ 
+  const email1 = (s.emailNotif || '').trim();
+  const email2 = (s.emailNotif2 || '').trim();
+ 
+  if (!email1 && !email2) return;
+ 
+  const payload = {
+    action: 'sendTaskCompletedEmail',
+    payload: {
+      taskName: String(taskName || '').trim(),
+      completedBy: String(completedBy || 'Desconhecido').trim(),
+      email1: email1,
+      email2: email2
+    }
+  };
+ 
+  fetch(scriptUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.result?.ok) {
+        console.log(`✅ [Email] Tarefa concluída enviado`);
+        showToast('success', '📧', 'Notificação enviada', `"${taskName}" concluído para ${data.result.sent} email(s)`, 4000);
+      }
+    })
+    .catch(err => {
+      console.error(`❌ [Email] Fetch error:`, err.message);
+    });
+}
+ 
+// ═══════════════════════════════════════════════════════════════════
+// 3. NOTIFICAÇÃO: TAREFA RECUSADA/REJEITADA
+// ═══════════════════════════════════════════════════════════════════
+ 
+function _sendTaskRejectedEmail(taskName, rejectedBy, reason) {
+  const scriptUrl = localStorage.getItem('wa_script_url');
+  if (!scriptUrl) return;
+ 
+  const s = getNotifSettings();
+  if (!s.taskRejected) return;
+ 
+  const email1 = (s.emailNotif || '').trim();
+  const email2 = (s.emailNotif2 || '').trim();
+ 
+  if (!email1 && !email2) return;
+ 
+  const payload = {
+    action: 'sendTaskRejectedEmail',
+    payload: {
+      taskName: String(taskName || '').trim(),
+      rejectedBy: String(rejectedBy || 'Desconhecido').trim(),
+      reason: reason ? String(reason).trim() : '',
+      email1: email1,
+      email2: email2
+    }
+  };
+ 
+  fetch(scriptUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.result?.ok) {
+        console.log(`✅ [Email] Tarefa recusada enviado`);
+        showToast('success', '📧', 'Notificação enviada', `"${taskName}" recusado para ${data.result.sent} email(s)`, 4000);
+      }
+    })
+    .catch(err => {
+      console.error(`❌ [Email] Fetch error:`, err.message);
+    });
+}
+ 
+// ═══════════════════════════════════════════════════════════════════
+// 4. NOTIFICAÇÃO: CELEBRAÇÃO (compra marcante)
+// ═══════════════════════════════════════════════════════════════════
+ 
+function _sendCelebrationEmail(itemName, celebrationMsg, emoji) {
+  const scriptUrl = localStorage.getItem('wa_script_url');
+  if (!scriptUrl) return;
+ 
+  const s = getNotifSettings();
+  if (!s.celebration) return;
+ 
+  const email1 = (s.emailNotif || '').trim();
+  const email2 = (s.emailNotif2 || '').trim();
+ 
+  if (!email1 && !email2) return;
+ 
+  emoji = emoji || '🎉';
+ 
+  const payload = {
+    action: 'sendCelebrationEmail',
+    payload: {
+      itemName: String(itemName || '').trim(),
+      celebrationMsg: String(celebrationMsg || 'Algo incrível foi comprado!').trim(),
+      emoji: String(emoji).trim(),
+      email1: email1,
+      email2: email2
+    }
+  };
+ 
+  fetch(scriptUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.result?.ok) {
+        console.log(`✅ [Email] Celebração enviada`);
+        showToast('success', '📧', 'Notificação enviada', `Celebração enviada para ${data.result.sent} email(s)`, 4000);
+      }
+    })
+    .catch(err => {
+      console.error(`❌ [Email] Fetch error:`, err.message);
+    });
+}
+ 
+// ═══════════════════════════════════════════════════════════════════
+// 5. NOTIFICAÇÃO: ORÇAMENTO A 90% (aviso)
+// ═══════════════════════════════════════════════════════════════════
+ 
+function _sendBudgetWarningEmail(category, spent, limit, percentage) {
+  const scriptUrl = localStorage.getItem('wa_script_url');
+  if (!scriptUrl) return;
+ 
+  const s = getNotifSettings();
+  if (!s.budget) return;
+ 
+  const email1 = (s.emailNotif || '').trim();
+  const email2 = (s.emailNotif2 || '').trim();
+ 
+  if (!email1 && !email2) return;
+ 
+  const payload = {
+    action: 'sendBudgetWarningEmail',
+    payload: {
+      category: String(category || '').trim(),
+      spent: parseFloat(spent || 0),
+      limit: parseFloat(limit || 0),
+      percentage: parseInt(percentage || 0),
+      email1: email1,
+      email2: email2
+    }
+  };
+ 
+  fetch(scriptUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.result?.ok) {
+        console.log(`✅ [Email] Aviso de orçamento enviado`);
+        showToast('warning', '📧', 'Notificação enviada', `Orçamento de "${category}" a ${percentage}%`, 4000);
+      }
+    })
+    .catch(err => {
+      console.error(`❌ [Email] Fetch error:`, err.message);
+    });
+}
+ 
+// ═══════════════════════════════════════════════════════════════════
+// 6. NOTIFICAÇÃO: ORÇAMENTO ULTRAPASSADO (alerta crítico)
+// ═══════════════════════════════════════════════════════════════════
+ 
+function _sendBudgetOverEmail(category, spent, limit, percentage, overage) {
+  const scriptUrl = localStorage.getItem('wa_script_url');
+  if (!scriptUrl) return;
+ 
+  const s = getNotifSettings();
+  if (!s.budgetOver) return;
+ 
+  const email1 = (s.emailNotif || '').trim();
+  const email2 = (s.emailNotif2 || '').trim();
+ 
+  if (!email1 && !email2) return;
+ 
+  const payload = {
+    action: 'sendBudgetOverEmail',
+    payload: {
+      category: String(category || '').trim(),
+      spent: parseFloat(spent || 0),
+      limit: parseFloat(limit || 0),
+      percentage: parseInt(percentage || 0),
+      overage: parseFloat(overage || 0),
+      email1: email1,
+      email2: email2
+    }
+  };
+ 
+  fetch(scriptUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.result?.ok) {
+        console.log(`✅ [Email] Alerta crítico de orçamento enviado`);
+        showToast('urgent', '📧', 'Notificação enviada', `Orçamento ULTRAPASSADO em "${category}"!`, 5000);
+      }
+    })
+    .catch(err => {
+      console.error(`❌ [Email] Fetch error:`, err.message);
+    });
+}
+ 
 
 // ─── HOOK: CATEGORIA COMPLETA ─────────────────────────────────
 function _onCatComplete(catName) {
